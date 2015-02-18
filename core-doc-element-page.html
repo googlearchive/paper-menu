@@ -1,0 +1,127 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-styles/paper-styles.html">
+
+<!--
+Renders documentation describing an element's API.
+
+`core-doc-element-page` renders element descriptions as extracted by
+[Hydrolysis](https://github.com/PolymerLabs/hydrolysis). You can provide them
+either via binding (the {@link #model} attribute)...
+
+    <core-doc-page model="{{elementDescription}}"></core-doc-page>
+
+...or by placing the element description in JSON as the text content of a
+`core-doc-page`:
+
+    <core-doc-page>
+      {
+        "is": "awesome-sauce",
+        "properties": [
+          {"name": "isAwesome", "type": "boolean", "desc": "Is it awesome?"},
+        ]
+      }
+    </core-doc-page>
+
+-->
+<dom-module id="core-doc-element-page">
+
+  <link rel="stylesheet" href="core-doc-element-page.css">
+
+  <template>
+
+    <header paper-font="display2">&lt;<span>{{model.is}}</span>&gt;</header>
+
+    <section id="summary">
+    </section>
+
+    <section id="properties">
+      <header paper-font="headline">Properties</header>
+      <template is="x-repeat" items="{{model.properties}}">
+        <div class="property">
+          <div class="name">{{item.name}}</div>
+          <div class="type">{{item.type}}</div>
+          <div class="desc">{{item.desc}}</div>
+        </div>
+      </template>
+    </section>
+
+    <section id="methods">
+    </section>
+
+  </template>
+
+</dom-module>
+
+<script>
+
+  Polymer({
+
+    is: 'core-doc-element-page',
+
+    published: {
+      /**
+       * The [Hydrolysis](https://github.com/PolymerLabs/hydrolysis)-generated
+       * element description to display details for.
+       *
+       * Alternatively, the model can be provided as JSON via the text content
+       * of this element.
+       */
+      model: Object,
+    },
+
+    /** @override */
+    configure: function(properties) {
+      var boundModel = properties.model;
+      var jsonModel  = this._loadJson();
+      if (jsonModel && boundModel) {
+        console.error(
+            this,
+            'received both a bound model:', this.model,
+            'and JSON model:', this._jsonModel,
+            'Please provide only one');
+        throw new TypeError('<core-doc-element-page> accepts either a bound or JSON model, not both');
+      }
+      if (!boundModel && !jsonModel) {
+        throw new TypeError('<core-doc-element-page> got neither a bound or JSON model');
+      }
+
+      return {
+        model: boundModel || jsonModel,
+      };
+    },
+
+    /**
+     * Loads a hydrolysis element description (as JSON) from the text content of
+     * this element, if present.
+     *
+     * @return {Object} The parsed description, or `null`.
+     */
+    _loadJson: function() {
+      var textContent = this.textContent.trim();
+      if (textContent === '') return null;
+      try {
+        // TODO(nevir): Validate? Template errors are pretty bad.
+        return JSON.parse(textContent);
+      } catch(error) {
+        console.error('Failure when parsing JSON:', textContent, error);
+        throw error;
+      }
+    },
+
+    /** @override */
+    created: function() {
+      this.setAttribute('paper-font', 'body1');
+    },
+
+  });
+
+</script>
