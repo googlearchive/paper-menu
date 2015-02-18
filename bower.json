@@ -1,0 +1,30 @@
+{
+  "name": "core-doc-viewer",
+  "version": "0.8.0",
+  "authors": [
+    "Ian MacLeod <imac@google.com>",
+    "The Polymer Authors"
+  ],
+  "description": "A suite of elements that render documentation for Polymer components.",
+  "keywords": [
+    "web-component",
+    "web-components",
+    "polymer"
+  ],
+  "main": "core-doc-viewer.html",
+  "license": "MIT",
+  "homepage": "https://github.com/Polymer/core-doc-viewer/",
+  "ignore": [
+    "/.*",
+    "/tests/",
+    "/demo/",
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#0.8-preview",
+    "paper-styles": "PolymerLabs/paper-styles",
+  },
+  "devDependencies": {
+    "web-component-tester": "*",
+    "test-fixture": "Polymer/test-fixture"
+  }
+}
