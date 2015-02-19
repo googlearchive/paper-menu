@@ -8,3 +8,77 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 <link rel="import" href="core-doc-element-page.html">
+<link rel="import" href="../core-asset/core-asset.html">
+<link rel="import" href="../hydrolysis/hydrolysis.html">
+
+<!--
+Renders documentation for a Polymer component.
+
+`core-doc-viewer` will load the component (and eventually its dependencies),
+analyze its source and render docs based on that. No offline processing needed.
+-->
+<dom-module id="core-doc-viewer">
+
+  <template>
+    <core-asset id="root" href="{{src}}"></core-asset>
+    <core-doc-element-page id="page" model="{{element}}"></core-doc-element-page>
+  </template>
+
+</dom-module>
+
+<script>
+
+  Polymer({
+
+    is: 'core-doc-viewer',
+
+    published: {
+      /**
+       * The URL to fetch component source from.
+       *
+       * If the URL is relative, it will be resolved relative to the current
+       * import.
+       */
+      src: String,
+    },
+
+    /** @override */
+    ready: function() {
+      this.$.root.load().then(this._processSource.bind(this), function(error) {
+        console.error('Failed to load src for', this, error);
+      }.bind(this));
+    },
+
+    /**
+     * @param {string} source The HTML source that documentation should be
+     *     extracted from.
+     */
+    _processSource: function(source) {
+      this.element = this._hydrolize(source);
+    },
+
+    /**
+     * TODO(nevir): Much of this function should probably be part of Hydrolysis.
+     *
+     * @param {string} source The HTML source to be analyzed by Hydrolysis.
+     * @return {Object} The element defined by that source, or `null`.
+     */
+    _hydrolize: function(source) {
+      // TODO(nevir): Hydrolysis should expose itself; not browserify's
+      // `require`. We don't want to stomp over the user's `require`.
+      var hydrolysis = require('hydrolysis');
+      var parsed = hydrolysis.importParse(source);
+      for (var i = 0, script; script = parsed.script[i]; i++) {
+        if (script.childNodes.length !== 1) continue;
+        var parsedJs = hydrolysis.jsParse(script.childNodes[0].value);
+        if (parsedJs.elements.length > 0) {
+          return parsedJs.elements[0];
+        }
+      }
+
+      return null;
+    },
+
+  });
+
+</script>
