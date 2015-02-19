@@ -17,24 +17,48 @@ core-doc-element-page > header {
   color: #e91e63
 }
 
-/* Properties */
+/* Property Sections */
 
-core-doc-element-page #properties {
-  border: 1px solid rgb(255, 86, 33);
-  background-color: rgba(255, 86, 33, 0.2);
+core-doc-element-page #properties,
+core-doc-element-page #methods {
+  border: 1px solid;
+  margin: 16px 0;
 }
-
-core-doc-element-page #properties > header {
-  background-color: rgb(255, 86, 33);
+core-doc-element-page #properties > header,
+core-doc-element-page #methods > header {
   color: #ffffff;
   padding: 16px;
 }
+
+core-doc-element-page #properties {
+  background-color: rgba(255, 86, 33, 0.2);
+}
+core-doc-element-page #properties > header {
+  background-color: rgb(255, 86, 33);
+}
+core-doc-element-page #properties,
+core-doc-element-page #properties .property {
+  border-color: rgb(255, 86, 33);
+}
+
+core-doc-element-page #methods {
+  background-color: rgba(0, 190, 164, 0.2);
+}
+core-doc-element-page #methods > header {
+  background-color: rgb(0, 190, 164);
+}
+core-doc-element-page #methods,
+core-doc-element-page #methods .property {
+  border-color: rgb(0, 190, 164);
+}
+
+/* Generic Properties */
 
 core-doc-element-page .property {
   display: flex;
   flex-flow: row wrap;
   padding: 16px;
-  border-bottom: 1px solid rgb(255, 86, 33);
+  border-bottom: 1px solid;
 }
 core-doc-element-page .property:last-of-type {
   border-bottom-width: 0;

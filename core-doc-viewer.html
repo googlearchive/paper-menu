@@ -68,7 +68,7 @@ analyze its source and render docs based on that. No offline processing needed.
     },
 
     /**
-     * TODO(nevir): Much of this function should probably be part of Hydrolysis.
+     * TODO(nevir): Much of this function should be a helper in Hydrolysis.
      *
      * @param {string} source The HTML source to be analyzed by Hydrolysis.
      * @return {Object} The element defined by that source, or `null`.
@@ -82,7 +82,7 @@ analyze its source and render docs based on that. No offline processing needed.
         if (script.childNodes.length !== 1) continue;
         var parsedJs = hydrolysis.jsParse(script.childNodes[0].value);
         if (parsedJs.elements.length > 0) {
-          return parsedJs.elements[0];
+          return hydrolysis.jsdoc.annotate(parsedJs.elements[0]);
         }
       }
 
