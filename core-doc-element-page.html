@@ -15,11 +15,11 @@ Renders documentation describing an element's API.
 
 `core-doc-element-page` renders element descriptions as extracted by
 [Hydrolysis](https://github.com/PolymerLabs/hydrolysis). You can provide them
-either via binding (the {@link #model} attribute)...
+either via binding (the {@link #descriptor} attribute)...
 
-    <core-doc-page model="{{elementDescription}}"></core-doc-page>
+    <core-doc-page descriptor="{{elementDescriptor}}"></core-doc-page>
 
-...or by placing the element description in JSON as the text content of a
+...or by placing the element descriptor in JSON as the text content of a
 `core-doc-page`:
 
     <core-doc-page>
@@ -31,6 +31,10 @@ either via binding (the {@link #model} attribute)...
       }
     </core-doc-page>
 
+However, be aware that due to current limitations in Polymer 0.8, _changes_ to
+the text content will not be respected, only the initial value will be loaded.
+If you wish to update the documented element, please set it via the `descriptor`
+property.
 -->
 <dom-module id="core-doc-element-page">
 
@@ -38,14 +42,14 @@ either via binding (the {@link #model} attribute)...
 
   <template>
 
-    <header paper-font="display2">&lt;<span>{{model.is}}</span>&gt;</header>
+    <header paper-font="display2">&lt;<span>{{descriptor.is}}</span>&gt;</header>
 
     <section id="summary">
     </section>
 
     <section id="properties">
       <header paper-font="headline">Properties</header>
-      <template is="x-repeat" items="{{model.properties}}">
+      <template is="x-repeat" items="{{descriptor.properties}}">
         <div class="property">
           <div class="name">{{item.name}}</div>
           <div class="type">{{item.type}}</div>
@@ -70,46 +74,44 @@ either via binding (the {@link #model} attribute)...
     published: {
       /**
        * The [Hydrolysis](https://github.com/PolymerLabs/hydrolysis)-generated
-       * element description to display details for.
+       * element descriptor to display details for.
        *
-       * Alternatively, the model can be provided as JSON via the text content
+       * Alternatively, the element descriptor can be provided as JSON via the text content
        * of this element.
        */
-      model: Object,
+      descriptor: Object,
     },
 
     /** @override */
     configure: function(properties) {
-      var boundModel = properties.model;
-      var jsonModel  = this._loadJson();
-      if (jsonModel && boundModel) {
+      var jsonDescriptor = this._loadJson();
+      // Note that this is only an error during element creation. You are free
+      // to stomp over the descriptor after it is ready.
+      if (jsonDescriptor && properties.descriptor) {
         console.error(
             this,
-            'received both a bound model:', this.model,
-            'and JSON model:', this._jsonModel,
+            'received both a bound descriptor:', this.descriptor,
+            'and JSON descriptor:', this._jsonDescriptor,
             'Please provide only one');
-        throw new TypeError('<core-doc-element-page> accepts either a bound or JSON model, not both');
-      }
-      if (!boundModel && !jsonModel) {
-        throw new TypeError('<core-doc-element-page> got neither a bound or JSON model');
+        throw new Error(
+            '<core-doc-element-page> accepts either a bound or JSON descriptor; not both');
       }
 
       return {
-        model: boundModel || jsonModel,
+        descriptor: properties.descriptor || jsonDescriptor,
       };
     },
 
     /**
-     * Loads a hydrolysis element description (as JSON) from the text content of
+     * Loads a hydrolysis element descriptor (as JSON) from the text content of
      * this element, if present.
      *
-     * @return {Object} The parsed description, or `null`.
+     * @return {Object} The parsed descriptor, or `null`.
      */
     _loadJson: function() {
       var textContent = this.textContent.trim();
       if (textContent === '') return null;
       try {
-        // TODO(nevir): Validate? Template errors are pretty bad.
         return JSON.parse(textContent);
       } catch(error) {
         console.error('Failure when parsing JSON:', textContent, error);

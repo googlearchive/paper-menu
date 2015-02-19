@@ -34,7 +34,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <test-fixture id="bound">
       <template is="x-template">
-        <core-doc-element-page model="{{model}}" bound></core-doc-element-page>
+        <core-doc-element-page descriptor="{{descriptor}}" bound></core-doc-element-page>
       </template>
     </test-fixture>
 
@@ -53,7 +53,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <test-fixture id="json-and-bound">
       <template is="x-template">
-        <core-doc-element-page model="{{model}}" jsonbound>
+        <core-doc-element-page descriptor="{{descriptor}}" jsonbound>
           {
             "is": "awesome-sauce",
             "properties": [
@@ -80,25 +80,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           page = null; // Make sure that we don't reuse another test's element.
         });
 
-        describe('with a bound model', function() {
+        describe('with a bound descriptor', function() {
 
-          beforeEach(function() { page = fixture('bound', {model: ELEMENT}); });
+          beforeEach(function() { page = fixture('bound', {descriptor: ELEMENT}); });
 
-          // TODO(nevir): Cannot enable until https://github.com/Polymer/polymer/issues/1200
-          it.skip('loads the model', function() {
-            expect(page.model.is).to.eq('awesome-sauce');
-            expect(page.model.properties.length).to.eq(1);
+          it('loads the descriptor', function() {
+            expect(page.descriptor.is).to.eq('awesome-sauce');
+            expect(page.descriptor.properties.length).to.eq(1);
           });
 
         });
 
-        describe('with a JSON model', function() {
+        describe('with a JSON descriptor', function() {
 
           beforeEach(function() { page = fixture('json'); });
 
-          it('loads the model', function() {
-            expect(page.model.is).to.eq('awesome-sauce');
-            expect(page.model.properties.length).to.eq(1);
+          it('loads the descriptor', function() {
+            expect(page.descriptor.is).to.eq('awesome-sauce');
+            expect(page.descriptor.properties.length).to.eq(1);
           });
 
         });
@@ -106,10 +105,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         describe('edge cases', function() {
 
           // TODO(nevir): Cannot enable until https://github.com/Polymer/polymer/issues/1200
-          it.skip('throws when a bound and JSON model are provided', function() {
+          it.skip('throws when a bound and JSON descriptor are provided', function() {
             expect(function() {
-              fixture('json-and-bound', {model: ELEMENT});
-            }).to.throw(TypeError, /model/i);
+              fixture('json-and-bound', {descriptor: ELEMENT});
+            }).to.throw(Error, /descriptor/i);
           });
 
         });
