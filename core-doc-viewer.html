@@ -19,6 +19,15 @@ analyze its source and render docs based on that. No offline processing needed.
 -->
 <dom-module id="core-doc-viewer">
 
+  <style>
+    core-doc-viewer #page {
+      display: none;
+    }
+    core-doc-viewer #page.active {
+      display: block;
+    }
+  </style>
+
   <template>
     <core-asset id="root" href="{{src}}"></core-asset>
     <core-doc-element-page id="page" model="{{element}}"></core-doc-element-page>
@@ -55,6 +64,7 @@ analyze its source and render docs based on that. No offline processing needed.
      */
     _processSource: function(source) {
       this.element = this._hydrolize(source);
+      this.$.page.classList.toggle('active', !!this.element);
     },
 
     /**
