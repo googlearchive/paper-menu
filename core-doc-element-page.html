@@ -1,0 +1,129 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-styles/paper-styles.html">
+
+<!--
+Renders documentation describing an element's API.
+
+`core-doc-element-page` renders element descriptions as extracted by
+[Hydrolysis](https://github.com/PolymerLabs/hydrolysis). You can provide them
+either via binding (the {@link #descriptor} attribute)...
+
+    <core-doc-page descriptor="{{elementDescriptor}}"></core-doc-page>
+
+...or by placing the element descriptor in JSON as the text content of a
+`core-doc-page`:
+
+    <core-doc-page>
+      {
+        "is": "awesome-sauce",
+        "properties": [
+          {"name": "isAwesome", "type": "boolean", "desc": "Is it awesome?"},
+        ]
+      }
+    </core-doc-page>
+
+However, be aware that due to current limitations in Polymer 0.8, _changes_ to
+the text content will not be respected, only the initial value will be loaded.
+If you wish to update the documented element, please set it via the `descriptor`
+property.
+-->
+<dom-module id="core-doc-element-page">
+
+  <link rel="stylesheet" href="core-doc-element-page.css">
+
+  <template>
+
+    <header paper-font="display2">&lt;<span>{{descriptor.is}}</span>&gt;</header>
+
+    <section id="summary">
+    </section>
+
+    <section id="properties">
+      <header paper-font="headline">Properties</header>
+      <template is="x-repeat" items="{{descriptor.properties}}">
+        <div class="property">
+          <div class="name">{{item.name}}</div>
+          <div class="type">{{item.type}}</div>
+          <div class="desc">{{item.desc}}</div>
+        </div>
+      </template>
+    </section>
+
+    <section id="methods">
+    </section>
+
+  </template>
+
+</dom-module>
+
+<script>
+
+  Polymer({
+
+    is: 'core-doc-element-page',
+
+    published: {
+      /**
+       * The [Hydrolysis](https://github.com/PolymerLabs/hydrolysis)-generated
+       * element descriptor to display details for.
+       *
+       * Alternatively, the element descriptor can be provided as JSON via the text content
+       * of this element.
+       */
+      descriptor: Object,
+    },
+
+    /** @override */
+    configure: function(properties) {
+      var jsonDescriptor = this._loadJson();
+      // Note that this is only an error during element creation. You are free
+      // to stomp over the descriptor after it is ready.
+      if (jsonDescriptor && properties.descriptor) {
+        console.error(
+            this,
+            'received both a bound descriptor:', this.descriptor,
+            'and JSON descriptor:', this._jsonDescriptor,
+            'Please provide only one');
+        throw new Error(
+            '<core-doc-element-page> accepts either a bound or JSON descriptor; not both');
+      }
+
+      return {
+        descriptor: properties.descriptor || jsonDescriptor,
+      };
+    },
+
+    /**
+     * Loads a hydrolysis element descriptor (as JSON) from the text content of
+     * this element, if present.
+     *
+     * @return {Object} The parsed descriptor, or `null`.
+     */
+    _loadJson: function() {
+      var textContent = this.textContent.trim();
+      if (textContent === '') return null;
+      try {
+        return JSON.parse(textContent);
+      } catch(error) {
+        console.error('Failure when parsing JSON:', textContent, error);
+        throw error;
+      }
+    },
+
+    /** @override */
+    created: function() {
+      this.setAttribute('paper-font', 'body1');
+    },
+
+  });
+
+</script>
