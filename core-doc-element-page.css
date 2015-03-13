@@ -36,7 +36,7 @@ core-doc-element-page .property {
   padding: 16px;
   border-bottom: 1px solid rgb(255, 86, 33);
 }
-core-doc-element-page .property:last-child {
+core-doc-element-page .property:last-of-type {
   border-bottom-width: 0;
 }
 

@@ -20,6 +20,7 @@
     "/demo/",
   ],
   "dependencies": {
+    "hydrolysis": "PolymerLabs/hydrolysis",
     "polymer": "Polymer/polymer#0.8-preview",
     "paper-styles": "PolymerLabs/paper-styles",
   },
