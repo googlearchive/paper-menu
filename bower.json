@@ -17,13 +17,13 @@
   "ignore": [
     "/.*",
     "/tests/",
-    "/demo/",
+    "/demo/"
   ],
   "dependencies": {
     "hydrolysis": "PolymerLabs/hydrolysis",
     "marked-element": "robdodson/mark-down#0.8-preview",
     "polymer": "Polymer/polymer#0.8-preview",
-    "paper-styles": "PolymerLabs/paper-styles",
+    "paper-styles": "PolymerLabs/paper-styles"
   },
   "devDependencies": {
     "web-component-tester": "*",
