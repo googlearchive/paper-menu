@@ -9,6 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../paper-styles/paper-styles.html">
+<link rel="import" href="../mark-down/mark-down.html">
 
 <!--
 Renders documentation describing an element's API.
@@ -42,23 +43,31 @@ property.
 
   <template>
 
-    <header paper-font="display2">&lt;<span>{{descriptor.is}}</span>&gt;</header>
+    <header paper-font="display2">&lt;<span>{{_model.is}}</span>&gt;</header>
 
     <section id="summary">
     </section>
 
     <section id="properties">
       <header paper-font="headline">Properties</header>
-      <template is="x-repeat" items="{{descriptor.properties}}">
+      <template is="x-repeat" items="{{_model.properties}}">
         <div class="property">
           <div class="name">{{item.name}}</div>
           <div class="type">{{item.type}}</div>
-          <div class="desc">{{item.desc}}</div>
+          <mark-down class="desc" text="{{item.desc}}"></mark-down>
         </div>
       </template>
     </section>
 
     <section id="methods">
+      <header paper-font="headline">Methods</header>
+      <template is="x-repeat" items="{{_model.methods}}">
+        <div class="property method">
+          <div class="name">{{item.name}}</div>
+          <div class="type">{{item.type}}</div>
+          <mark-down class="desc" text="{{item.desc}}"></mark-down>
+        </div>
+      </template>
     </section>
 
   </template>
@@ -80,6 +89,10 @@ property.
        * of this element.
        */
       descriptor: Object,
+    },
+
+    bind: {
+      descriptor: '_descriptorChanged',
     },
 
     /** @override */
@@ -122,6 +135,39 @@ property.
     /** @override */
     created: function() {
       this.setAttribute('paper-font', 'body1');
+    },
+
+    _descriptorChanged: function() {
+      if (!this.descriptor) return;
+
+      var properties = [];
+      var methods    = [];
+
+      for (var i = 0, property; property = this.descriptor.properties[i]; i++) {
+        // TODO(nevir): Make this an option?
+        if (property.private) continue;
+        if (property.type === 'Function') {
+          methods.push(this._propertyForTemplate(property));
+        } else {
+          properties.push(this._propertyForTemplate(property));
+        }
+      }
+
+      this._model = {
+        is:         this.descriptor.is,
+        properties: properties,
+        methods:    methods,
+      };
+    },
+
+    _propertyForTemplate: function(property) {
+      console.log(property);
+      var jsdoc = property.jsdoc || {};
+      return {
+        name: property.name,
+        type: property.type,
+        desc: jsdoc ? jsdoc.body : property.desc,
+      };
     },
 
   });
