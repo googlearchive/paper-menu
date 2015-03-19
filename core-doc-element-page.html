@@ -46,6 +46,7 @@ property.
     <header paper-font="display2">&lt;<span>{{_model.is}}</span>&gt;</header>
 
     <section id="summary">
+      <mark-down text="{{_model.summary}}"></mark-down>
     </section>
 
     <section id="properties">
@@ -156,6 +157,7 @@ property.
         is:         this.descriptor.is,
         properties: properties,
         methods:    methods,
+        summary:    this.descriptor.desc,
       };
     },
 
