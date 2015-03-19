@@ -11,7 +11,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   display: block;
   box-sizing: border-box;
   color: #212121;
-  max-width: 600px;
+  max-width: 44em;
 }
 
 header {
@@ -21,8 +21,17 @@ header {
 /* Common Formatting */
 
 mark-down::shadow pre {
+  background-color: #fafafa;
   overflow-x: auto;
-  font-size: 0.9em;
+  padding: 12px 16px;
+}
+
+  /* Dupe of .paper-font-code */
+mark-down::shadow code {
+  font-family: 'Source Code Pro', 'Consolas', 'Monaco', 'Menlo', monospace;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
 }
 
 /* Property Sections */
