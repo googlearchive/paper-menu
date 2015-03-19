@@ -45,7 +45,7 @@ mark-down::shadow pre {
   background-color: rgb(255, 86, 33);
 }
 #properties,
-#properties .property {
+#properties core-doc-property {
   border-color: rgb(255, 86, 33);
 }
 
@@ -56,31 +56,13 @@ mark-down::shadow pre {
   background-color: rgb(0, 190, 164);
 }
 #methods,
-#methods .property {
+#methods core-doc-property {
   border-color: rgb(0, 190, 164);
 }
 
-/* Generic Properties */
-
-.property {
-  display: flex;
-  flex-flow: row wrap;
-  padding: 16px;
+core-doc-property {
   border-bottom: 1px solid;
 }
-.property:last-of-type {
+core-doc-property:last-of-type {
   border-bottom-width: 0;
-}
-
-.property .name {
-  width: 160px;
-}
-
-.property .type {
-  width: 100px;
-}
-
-.property .desc {
-  width: 100%;
-  margin-top: 8px;
 }

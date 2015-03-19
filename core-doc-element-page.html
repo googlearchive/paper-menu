@@ -11,6 +11,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../paper-styles/paper-styles.html">
 <link rel="import" href="../mark-down/mark-down.html">
 
+<link rel="import" href="core-doc-property.html">
+
 <!--
 Renders documentation describing an element's API.
 
@@ -52,22 +54,14 @@ property.
     <section id="properties">
       <header class="paper-font-headline">Properties</header>
       <template is="x-repeat" items="{{_model.properties}}">
-        <div class="property" private$="{{item.private}}">
-          <div class="name">{{item.name}}</div>
-          <div class="type">{{item.type}}</div>
-          <mark-down class="desc" text="{{item.desc}}"></mark-down>
-        </div>
+        <core-doc-property descriptor="{{item}}"></core-doc-property>
       </template>
     </section>
 
     <section id="methods">
       <header class="paper-font-headline">Methods</header>
       <template is="x-repeat" items="{{_model.methods}}">
-        <div class="property method" private$="{{item.private}}">
-          <div class="name">{{item.name}}</div>
-          <div class="type">{{item.type}}</div>
-          <mark-down class="desc" text="{{item.desc}}"></mark-down>
-        </div>
+        <core-doc-property descriptor="{{item}}"></core-doc-property>
       </template>
     </section>
 
@@ -83,15 +77,6 @@ property.
     'properties',
     'hostAttributes',
   ];
-
-  /**
-   * A property model formatted for display via our element templates.
-   *
-   * @typedef {Object} Property
-   * @property {string} name The name of the property
-   * @property {string} type The type expression of the property.
-   * @property {boolean} private Whether the property is private.
-   */
 
   Polymer({
 
@@ -160,10 +145,8 @@ property.
       var methods    = [];
 
       for (var i = 0, property; property = this.descriptor.properties[i]; i++) {
-        var model = this._propertyForTemplate(property);
-        model.private = this._isPrivateProperty(property);
-
-        (property.type === 'Function' ? methods : properties).push(model);
+        if (RESERVED_NAMES.indexOf(property.name) !== -1) continue;
+        (property.type === 'Function' ? methods : properties).push(property);
       }
 
       this._model = {
@@ -172,37 +155,6 @@ property.
         methods:    methods,
         summary:    this.descriptor.desc,
       };
-    },
-
-    /**
-     * Converts a Hydrolysis `Property` into a local representation for display.
-     *
-     * @param {!hydrolysis.PropertyDescriptor} property
-     * @return {!Property}
-     */
-    _propertyForTemplate: function(property) {
-      var jsdoc = property.jsdoc || {};
-      return {
-        name: property.name,
-        type: property.type,
-        desc: jsdoc ? jsdoc.body : property.desc,
-      };
-    },
-
-    /**
-     * Determines whether the property should be shown.
-     *
-     * By default, private properties and reserved names (Polymer configuration)
-     * are filtered out.
-     *
-     * @param {!hydrolysis.PropertyDescriptor} property The descriptor to test.
-     * @return {boolean} Whether it should be shown.
-     */
-    _isPrivateProperty: function(property) {
-      if (property.private) return true; // For future support.
-      if (property.name[0] === '_') return true;
-      if (RESERVED_NAMES.indexOf(property.name) !== -1) return true;
-      return false;
     },
 
   });

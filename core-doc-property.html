@@ -1,0 +1,87 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-styles/paper-styles.html">
+<link rel="import" href="../mark-down/mark-down.html">
+
+<!--
+Renders documentation describing a specific property of an element.
+
+Give it a hydrolysis `PropertyDescriptor` (via `descriptor`), and watch it go!
+-->
+<dom-module id="core-doc-property">
+
+  <link rel="import" type="css" href="core-doc-property.css">
+
+  <template>
+    <div class="name">{{_model.name}}</div>
+    <div class="type">{{_model.type}}</div>
+    <mark-down class="desc" text="{{_model.desc}}"></mark-down>
+  </template>
+
+</dom-module>
+
+<script>
+(function() {
+
+  Polymer({
+
+    is: 'core-doc-property',
+
+    properties: {
+      /**
+       * The [Hydrolysis](https://github.com/PolymerLabs/hydrolysis)-generated
+       * element descriptor to display details for.
+       *
+       * Alternatively, the element descriptor can be provided as JSON via the text content
+       * of this element.
+       *
+       * @type {hydrolysis.PropertyDescriptor}
+       */
+      descriptor: {
+        type:     Object,
+        observer: '_descriptorChanged',
+      },
+    },
+
+    hostAttributes: {
+      class: 'paper-font-body1',
+    },
+
+    _descriptorChanged: function() {
+      if (!this.descriptor) return;
+
+      var jsdoc = this.descriptor.jsdoc || {};
+      this._model = {
+        name: this.descriptor.name,
+        type: this.descriptor.type,
+        desc: jsdoc ? jsdoc.body : this.descriptor.desc,
+      };
+    },
+
+    /**
+     * Determines whether the property should be shown.
+     *
+     * By default, private properties and reserved names (Polymer configuration)
+     * are filtered out.
+     *
+     * @param {!hydrolysis.PropertyDescriptor} property The descriptor to test.
+     * @return {boolean} Whether it should be shown.
+     */
+    _isPrivateProperty: function(property) {
+      if (property.private) return true; // For future support.
+      if (property.name[0] === '_') return true;
+      return false;
+    },
+
+  });
+
+})();
+</script>
