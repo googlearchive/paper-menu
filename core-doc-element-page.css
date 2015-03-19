@@ -7,72 +7,80 @@ The complete set of contributors may be found at http://polymer.github.io/CONTRI
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
-core-doc-element-page {
+:host {
   display: block;
   box-sizing: border-box;
   color: #212121;
+  max-width: 600px;
 }
 
-core-doc-element-page > header {
+header {
   color: #e91e63
+}
+
+/* Common Formatting */
+
+mark-down::shadow pre {
+  overflow-x: auto;
+  font-size: 0.9em;
 }
 
 /* Property Sections */
 
-core-doc-element-page #properties,
-core-doc-element-page #methods {
+#properties,
+#methods {
   border: 1px solid;
   margin: 16px 0;
 }
-core-doc-element-page #properties > header,
-core-doc-element-page #methods > header {
+#properties > header,
+#methods > header {
   color: #ffffff;
   padding: 16px;
 }
 
-core-doc-element-page #properties {
+#properties {
   background-color: rgba(255, 86, 33, 0.2);
 }
-core-doc-element-page #properties > header {
+#properties > header {
   background-color: rgb(255, 86, 33);
 }
-core-doc-element-page #properties,
-core-doc-element-page #properties .property {
+#properties,
+#properties .property {
   border-color: rgb(255, 86, 33);
 }
 
-core-doc-element-page #methods {
+#methods {
   background-color: rgba(0, 190, 164, 0.2);
 }
-core-doc-element-page #methods > header {
+#methods > header {
   background-color: rgb(0, 190, 164);
 }
-core-doc-element-page #methods,
-core-doc-element-page #methods .property {
+#methods,
+#methods .property {
   border-color: rgb(0, 190, 164);
 }
 
 /* Generic Properties */
 
-core-doc-element-page .property {
+.property {
   display: flex;
   flex-flow: row wrap;
   padding: 16px;
   border-bottom: 1px solid;
 }
-core-doc-element-page .property:last-of-type {
+.property:last-of-type {
   border-bottom-width: 0;
 }
 
-core-doc-element-page .property .name {
+.property .name {
   width: 160px;
 }
 
-core-doc-element-page .property .type {
+.property .type {
   width: 100px;
 }
 
-core-doc-element-page .property .desc {
+.property .desc {
   width: 100%;
   margin-top: 8px;
 }

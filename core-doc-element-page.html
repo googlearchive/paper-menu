@@ -16,7 +16,7 @@ Renders documentation describing an element's API.
 
 `core-doc-element-page` renders element descriptions as extracted by
 [Hydrolysis](https://github.com/PolymerLabs/hydrolysis). You can provide them
-either via binding (the {@link #descriptor} attribute)...
+either via binding...
 
     <core-doc-page descriptor="{{elementDescriptor}}"></core-doc-page>
 
@@ -39,20 +39,20 @@ property.
 -->
 <dom-module id="core-doc-element-page">
 
-  <link rel="stylesheet" href="core-doc-element-page.css">
+  <link rel="import" type="css" href="core-doc-element-page.css">
 
   <template>
 
-    <header paper-font="display2">&lt;<span>{{_model.is}}</span>&gt;</header>
+    <header class="paper-font-display2">&lt;<span>{{_model.is}}</span>&gt;</header>
 
     <section id="summary">
       <mark-down text="{{_model.summary}}"></mark-down>
     </section>
 
     <section id="properties">
-      <header paper-font="headline">Properties</header>
+      <header class="paper-font-headline">Properties</header>
       <template is="x-repeat" items="{{_model.properties}}">
-        <div class="property">
+        <div class="property" private$="{{item.private}}">
           <div class="name">{{item.name}}</div>
           <div class="type">{{item.type}}</div>
           <mark-down class="desc" text="{{item.desc}}"></mark-down>
@@ -61,9 +61,9 @@ property.
     </section>
 
     <section id="methods">
-      <header paper-font="headline">Methods</header>
+      <header class="paper-font-headline">Methods</header>
       <template is="x-repeat" items="{{_model.methods}}">
-        <div class="property method">
+        <div class="property method" private$="{{item.private}}">
           <div class="name">{{item.name}}</div>
           <div class="type">{{item.type}}</div>
           <mark-down class="desc" text="{{item.desc}}"></mark-down>
@@ -76,6 +76,22 @@ property.
 </dom-module>
 
 <script>
+(function() {
+
+  // TODO(nevir): We should move most of this knowledge into Hydrolysis!
+  var RESERVED_NAMES = [
+    'properties',
+    'hostAttributes',
+  ];
+
+  /**
+   * A property model formatted for display via our element templates.
+   *
+   * @typedef {Object} Property
+   * @property {string} name The name of the property
+   * @property {string} type The type expression of the property.
+   * @property {boolean} private Whether the property is private.
+   */
 
   Polymer({
 
@@ -88,6 +104,8 @@ property.
        *
        * Alternatively, the element descriptor can be provided as JSON via the text content
        * of this element.
+       *
+       * @type {hydrolysis.ElementDescriptor}
        */
       descriptor: {
         type:     Object,
@@ -95,7 +113,10 @@ property.
       },
     },
 
-    /** @override */
+    hostAttributes: {
+      class: 'paper-font-body1',
+    },
+
     configure: function(properties) {
       var jsonDescriptor = this._loadJson();
       // Note that this is only an error during element creation. You are free
@@ -132,11 +153,6 @@ property.
       }
     },
 
-    /** @override */
-    created: function() {
-      this.setAttribute('paper-font', 'body1');
-    },
-
     _descriptorChanged: function() {
       if (!this.descriptor) return;
 
@@ -144,13 +160,10 @@ property.
       var methods    = [];
 
       for (var i = 0, property; property = this.descriptor.properties[i]; i++) {
-        // TODO(nevir): Make this an option?
-        if (property.private) continue;
-        if (property.type === 'Function') {
-          methods.push(this._propertyForTemplate(property));
-        } else {
-          properties.push(this._propertyForTemplate(property));
-        }
+        var model = this._propertyForTemplate(property);
+        model.private = this._isPrivateProperty(property);
+
+        (property.type === 'Function' ? methods : properties).push(model);
       }
 
       this._model = {
@@ -161,6 +174,12 @@ property.
       };
     },
 
+    /**
+     * Converts a Hydrolysis `Property` into a local representation for display.
+     *
+     * @param {!hydrolysis.PropertyDescriptor} property
+     * @return {!Property}
+     */
     _propertyForTemplate: function(property) {
       var jsdoc = property.jsdoc || {};
       return {
@@ -170,6 +189,23 @@ property.
       };
     },
 
+    /**
+     * Determines whether the property should be shown.
+     *
+     * By default, private properties and reserved names (Polymer configuration)
+     * are filtered out.
+     *
+     * @param {!hydrolysis.PropertyDescriptor} property The descriptor to test.
+     * @return {boolean} Whether it should be shown.
+     */
+    _isPrivateProperty: function(property) {
+      if (property.private) return true; // For future support.
+      if (property.name[0] === '_') return true;
+      if (RESERVED_NAMES.indexOf(property.name) !== -1) return true;
+      return false;
+    },
+
   });
 
+})();
 </script>
