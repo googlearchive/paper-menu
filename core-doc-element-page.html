@@ -80,7 +80,7 @@ property.
 
     is: 'core-doc-element-page',
 
-    published: {
+    properties: {
       /**
        * The [Hydrolysis](https://github.com/PolymerLabs/hydrolysis)-generated
        * element descriptor to display details for.
@@ -88,11 +88,10 @@ property.
        * Alternatively, the element descriptor can be provided as JSON via the text content
        * of this element.
        */
-      descriptor: Object,
-    },
-
-    bind: {
-      descriptor: '_descriptorChanged',
+      descriptor: {
+        type:     Object,
+        observer: '_descriptorChanged',
+      },
     },
 
     /** @override */
@@ -161,7 +160,6 @@ property.
     },
 
     _propertyForTemplate: function(property) {
-      console.log(property);
       var jsdoc = property.jsdoc || {};
       return {
         name: property.name,

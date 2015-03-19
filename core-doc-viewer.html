@@ -30,7 +30,7 @@ analyze its source and render docs based on that. No offline processing needed.
 
   <template>
     <core-asset id="root" href="{{src}}"></core-asset>
-    <core-doc-element-page id="page" descriptor="{{element}}"></core-doc-element-page>
+    <core-doc-element-page id="page" descriptor="{{_element}}"></core-doc-element-page>
   </template>
 
 </dom-module>
@@ -41,7 +41,7 @@ analyze its source and render docs based on that. No offline processing needed.
 
     is: 'core-doc-viewer',
 
-    published: {
+    properties: {
       /**
        * The URL to fetch component source from.
        *
@@ -49,6 +49,9 @@ analyze its source and render docs based on that. No offline processing needed.
        * import.
        */
       src: String,
+
+      /** TODO(nevir): Support more than one element! */
+      _element: Object,
     },
 
     /** @override */
@@ -63,30 +66,26 @@ analyze its source and render docs based on that. No offline processing needed.
      *     extracted from.
      */
     _processSource: function(source) {
-      this.element = this._hydrolize(source);
-      this.$.page.classList.toggle('active', !!this.element);
-    },
-
-    /**
-     * TODO(nevir): Much of this function should be a helper in Hydrolysis.
-     *
-     * @param {string} source The HTML source to be analyzed by Hydrolysis.
-     * @return {Object} The element defined by that source, or `null`.
-     */
-    _hydrolize: function(source) {
-      // TODO(nevir): Hydrolysis should expose itself; not browserify's
-      // `require`. We don't want to stomp over the user's `require`.
-      var hydrolysis = require('hydrolysis');
-      var parsed = hydrolysis.importParse(source);
-      for (var i = 0, script; script = parsed.script[i]; i++) {
-        if (script.childNodes.length !== 1) continue;
-        var parsedJs = hydrolysis.jsParse(script.childNodes[0].value);
-        if (parsedJs.elements.length > 0) {
-          return hydrolysis.jsdoc.annotate(parsedJs.elements[0]);
-        }
+      if (!source) {
+        console.error('Failed to load src for', this, '404');
+        return;
       }
 
-      return null;
+      var hydrolysis = require('hydrolysis');
+      hydrolysis.hydrolyze(source).then(function(parsed) {
+        var element = parsed.elements[0];
+        if (!element) {
+          console.error('No element found at', this.src);
+          return;
+        }
+
+        this._element = hydrolysis.docs.annotateElement(element);
+        console.log('Documenting first element:', this._element);
+        this.$.page.classList.toggle('active', !!this._element);
+
+      }.bind(this), function(error) {
+        console.error('Failed to parse element at', this.src, error);
+      }.bind(this));
     },
 
   });
