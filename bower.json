@@ -21,9 +21,10 @@
   ],
   "dependencies": {
     "hydrolysis": "PolymerLabs/hydrolysis",
-    "marked-element": "robdodson/mark-down#0.8-preview",
+    "mark-down": "robdodson/mark-down#0.8-preview",
     "polymer": "Polymer/polymer#0.8-preview",
-    "paper-styles": "PolymerLabs/paper-styles"
+    "paper-styles": "PolymerLabs/paper-styles",
+    "core-asset": "PolymerLabs/core-asset"
   },
   "devDependencies": {
     "web-component-tester": "*",
