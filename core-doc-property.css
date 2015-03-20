@@ -25,7 +25,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 /* Identity */
 
-.name {
+#name {
   position: absolute;
   left: 0;
   top: 0;
@@ -34,28 +34,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 /* Metadata */
 
-.meta {
+#meta {
   display: flex;
 }
 
-.type {
+#type {
   width: 100px;
 }
-.type:before {
+#type:before {
   content: '\007b'; /* https://github.com/Polymer/polymer/issues/1291 */
 }
-.type:after {
+#type:after {
   content: '\007d'; /* https://github.com/Polymer/polymer/issues/1291 */
 }
 
-.default {
+#default {
   flex: 1;
   text-align: right;
 }
 
 /* Description */
 
-.desc {
+#desc {
   padding-top: 8px;
 }
 
@@ -64,10 +64,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 #transitionMask {
   transition: height ease-in-out 150ms;
 }
-.meta {
+#meta {
   transition: opacity ease-in-out 150ms;
 }
-.desc {
+#desc {
   transition: transform ease-in-out 150ms;
 }
 
@@ -77,9 +77,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   height: 20px !important; /* 1 line */
   overflow: hidden;
 }
-:host([_collapsed]) .meta {
+:host([_collapsed]) #meta {
   opacity: 0;
 }
-:host([_collapsed]) .desc {
+:host([_collapsed]) #desc {
   transform: translateY(-42px);
 }
