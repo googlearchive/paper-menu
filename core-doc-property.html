@@ -28,7 +28,7 @@ Give it a hydrolysis `PropertyDescriptor` (via `descriptor`), and watch it go!
           <span id="type" class="paper-font-code">{{_model.type}}</span>
           <span id="default" hidden$="{{!_model.default}}">default: <span class="value paper-font-code">{{_model.default}}</span></span>
         </div>
-        <mark-down id="desc" text="{{_model.desc}}" hidden></mark-down>
+        <mark-down id="desc" text="{{_model.desc}}" hidden$="{{!_model.desc}}"></mark-down>
       </div>
     </div>
   </template>
@@ -94,11 +94,6 @@ Give it a hydrolysis `PropertyDescriptor` (via `descriptor`), and watch it go!
     _descriptorChanged: function() {
       if (!this.descriptor) return;
 
-      if (!this.descriptor.desc) {
-        this.collapsed = false;
-      }
-      this.toggleAttribute('hidden', !this.descriptor.desc, this.$.desc);
-
       var jsdoc = this.descriptor.jsdoc || {};
       this._model = {
         name: this.descriptor.name,
@@ -109,10 +104,6 @@ Give it a hydrolysis `PropertyDescriptor` (via `descriptor`), and watch it go!
     },
 
     _collapsedChanged: function() {
-      if (this.collapsed && this.descriptor && !this.descriptor.desc) {
-        this.collapsed = false; // Nope.
-      }
-
       var container = this.$.transitionMask;
       if (this.collapsed) {
         container.style.height = '';
