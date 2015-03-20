@@ -38,6 +38,26 @@ Give it a hydrolysis `PropertyDescriptor` (via `descriptor`), and watch it go!
 <script>
 (function() {
 
+  // TODO(nevir): Consider setting up a helper lib exported from hydrolysis.
+
+  /**
+   * Finds the first JSDoc tag matching `name` and returns its value at `key`.
+   *
+   * @param {Array<hydrolysis.JSDocTag>} jsdocTags
+   * @param {string} tagName
+   * @param {string} key
+   * @return {?string}
+   */
+  function getTag(tags, tagName, key) {
+    if (!tags) return null;
+    for (var i = 0, tag; tag = tags[i]; i++) {
+      if (tag.tag === tagName) {
+        return tag[key];
+      }
+    }
+    return null;
+  }
+
   Polymer({
 
     is: 'core-doc-property',
@@ -105,9 +125,11 @@ Give it a hydrolysis `PropertyDescriptor` (via `descriptor`), and watch it go!
       if (!this.descriptor) return;
 
       var jsdoc = this.descriptor.jsdoc || {};
+      var tags  = jsdoc && jsdoc.tags;
+      console.log(tags);
       this._model = {
         name: this.descriptor.name,
-        type: this.descriptor.type,
+        type: getTag(tags, 'type', 'type') || this.descriptor.type,
         desc: jsdoc ? jsdoc.body : this.descriptor.desc,
         default: "'abc123'",
       };
