@@ -8,20 +8,78 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 :host {
-  display: flex;
-  flex-flow: row wrap;
+  box-sizing: border-box;
+  display: block;
   padding: 16px;
 }
 
+#transitionMask {
+  position: relative;
+  overflow: hidden;
+  padding-left: 176px;
+}
+
+[hidden] {
+  display: none;
+}
+
+/* Identity */
+
 .name {
+  position: absolute;
+  left: 0;
+  top: 0;
   width: 160px;
+}
+
+/* Metadata */
+
+.meta {
+  display: flex;
 }
 
 .type {
   width: 100px;
 }
+.type:before {
+  content: '\007b'; /* https://github.com/Polymer/polymer/issues/1291 */
+}
+.type:after {
+  content: '\007d'; /* https://github.com/Polymer/polymer/issues/1291 */
+}
+
+.default {
+  flex: 1;
+  text-align: right;
+}
+
+/* Description */
 
 .desc {
-  width: 100%;
-  margin-top: 8px;
+  padding-top: 8px;
+}
+
+/* State Transitions */
+
+#transitionMask {
+  transition: height ease-in-out 150ms;
+}
+.meta {
+  transition: opacity ease-in-out 150ms;
+}
+.desc {
+  transition: transform ease-in-out 150ms;
+}
+
+/* Collapsed State */
+
+:host([_collapsed]) #transitionMask {
+  height: 20px !important; /* 1 line */
+  overflow: hidden;
+}
+:host([_collapsed]) .meta {
+  opacity: 0;
+}
+:host([_collapsed]) .desc {
+  transform: translateY(-42px);
 }

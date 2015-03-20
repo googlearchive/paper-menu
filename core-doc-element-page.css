@@ -11,11 +11,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   display: block;
   box-sizing: border-box;
   color: #212121;
-  max-width: 44em;
+  max-width: 48em;
 }
 
 header {
   color: #e91e63
+}
+
+#summary mark-down::shadow p {
+  padding: 0 16px;
 }
 
 /* Common Formatting */
@@ -30,7 +34,7 @@ mark-down::shadow pre {
 mark-down::shadow code {
   font-family: 'Source Code Pro', 'Consolas', 'Monaco', 'Menlo', monospace;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 20px;
 }
 

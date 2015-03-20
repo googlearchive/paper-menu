@@ -21,9 +21,16 @@ Give it a hydrolysis `PropertyDescriptor` (via `descriptor`), and watch it go!
   <link rel="import" type="css" href="core-doc-property.css">
 
   <template>
-    <div class="name">{{_model.name}}</div>
-    <div class="type">{{_model.type}}</div>
-    <mark-down class="desc" text="{{_model.desc}}"></mark-down>
+    <div id="transitionMask">
+      <div class="name paper-font-code">{{_model.name}}</div>
+      <div class="details">
+        <div class="meta">
+          <span class="type paper-font-code">{{_model.type}}</span>
+          <span class="default" hidden$="{{!_model.default}}">default: <span class="value paper-font-code">{{_model.default}}</span></span>
+        </div>
+        <mark-down class="desc" text="{{_model.desc}}" hidden$="{{!_model.desc}}"></mark-down>
+      </div>
+    </div>
   </template>
 
 </dom-module>
@@ -36,6 +43,7 @@ Give it a hydrolysis `PropertyDescriptor` (via `descriptor`), and watch it go!
     is: 'core-doc-property',
 
     properties: {
+
       /**
        * The [Hydrolysis](https://github.com/PolymerLabs/hydrolysis)-generated
        * element descriptor to display details for.
@@ -46,13 +54,41 @@ Give it a hydrolysis `PropertyDescriptor` (via `descriptor`), and watch it go!
        * @type {hydrolysis.PropertyDescriptor}
        */
       descriptor: {
-        type:     Object,
+        type: Object,
         observer: '_descriptorChanged',
       },
+
+      /**
+       * Whether the property should show a one-liner, or full summary.
+       *
+       * Note that this property _is_ reflected as an attribute, but we perform
+       * the reflection manually. In order to support the CSS transitions, we
+       * must calculate the element height before setting the attribute.
+       *
+       * @see #_collapsedChanged
+       */
+      collapsed: {
+        type: Boolean,
+        value: true,
+        observer: '_collapsedChanged',
+      },
+
+    },
+
+    listeners: {
+      'click': '_onClick',
     },
 
     hostAttributes: {
       class: 'paper-font-body1',
+    },
+
+    ready: function() {
+      this._isReady = true;
+    },
+
+    _onClick: function() {
+      this.collapsed = !this.collapsed;
     },
 
     _descriptorChanged: function() {
@@ -63,7 +99,25 @@ Give it a hydrolysis `PropertyDescriptor` (via `descriptor`), and watch it go!
         name: this.descriptor.name,
         type: this.descriptor.type,
         desc: jsdoc ? jsdoc.body : this.descriptor.desc,
+        default: "'abc123'",
       };
+    },
+
+    _collapsedChanged: function() {
+      var container = this.$.transitionMask;
+      if (this.collapsed) {
+        container.style.height = '';
+        this.setAttribute('_collapsed', '');
+      } else {
+        // Measure.
+        this.removeAttribute('_collapsed');
+        container.style.height = container.offsetHeight + 'px';
+        this.setAttribute('_collapsed', '');
+        // Do.
+        requestAnimationFrame(function() {
+          this.removeAttribute('_collapsed');
+        }.bind(this));
+      }
     },
 
     /**
