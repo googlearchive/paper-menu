@@ -30,11 +30,11 @@ mark-down::shadow pre {
   padding: 12px 16px;
 }
 
-  /* Dupe of .paper-font-code */
+  /* Dupe of .paper-font-code1 */
 mark-down::shadow code {
-  font-family: 'Source Code Pro', 'Consolas', 'Monaco', 'Menlo', monospace;
+  font-family: 'Inconsolata', 'Consolas', 'Source Code Pro', 'Monaco', 'Menlo', monospace;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 20px;
 }
 

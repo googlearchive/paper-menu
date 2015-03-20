@@ -22,11 +22,11 @@ Give it a hydrolysis `PropertyDescriptor` (via `descriptor`), and watch it go!
 
   <template>
     <div id="transitionMask">
-      <div id="name" class="paper-font-code">{{_model.name}}</div>
+      <div id="name" class="paper-font-code1">{{_model.name}}</div>
       <div id="details">
         <div id="meta">
-          <span id="type" class="paper-font-code">{{_model.type}}</span>
-          <span id="default" hidden$="{{!_model.default}}">default: <span class="value paper-font-code">{{_model.default}}</span></span>
+          <span id="type" class="paper-font-code1">{{_model.type}}</span>
+          <span id="default" hidden$="{{!_model.default}}">default: <span class="value paper-font-code1">{{_model.default}}</span></span>
         </div>
         <mark-down id="desc" text="{{_model.desc}}" hidden$="{{!_model.desc}}"></mark-down>
       </div>
