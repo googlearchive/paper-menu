@@ -76,7 +76,9 @@ Give it a hydrolysis `PropertyDescriptor` (via `descriptor`), and watch it go!
     },
 
     listeners: {
-      'click': '_onClick',
+      'click':               '_onClick',
+      'transitionEnd':       '_onTransitionEnd',
+      'webkitTransitionEnd': '_onTransitionEnd',
     },
 
     hostAttributes: {
@@ -89,6 +91,11 @@ Give it a hydrolysis `PropertyDescriptor` (via `descriptor`), and watch it go!
 
     _onClick: function() {
       this.collapsed = !this.collapsed;
+    },
+
+    _onTransitionEnd: function(event) {
+      if (event.path[0] !== this.$.transitionMask) return;
+      this.$.transitionMask.style.height = '';
     },
 
     _descriptorChanged: function() {
@@ -104,20 +111,39 @@ Give it a hydrolysis `PropertyDescriptor` (via `descriptor`), and watch it go!
     },
 
     _collapsedChanged: function() {
-      var container = this.$.transitionMask;
-      if (this.collapsed) {
-        container.style.height = '';
-        this.setAttribute('_collapsed', '');
-      } else {
-        // Measure.
-        this.removeAttribute('_collapsed');
-        container.style.height = container.offsetHeight + 'px';
-        this.setAttribute('_collapsed', '');
-        // Do.
-        requestAnimationFrame(function() {
-          this.removeAttribute('_collapsed');
-        }.bind(this));
+      if (!this._isReady) {
+        this.toggleAttribute('_collapsed', this.collapsed);
+        return;
       }
+
+      var container = this.$.transitionMask;
+      var collapsed = this.collapsed;
+
+      // Measure.
+      container.style.height = 'auto';
+      var fullHeight = container.offsetHeight;
+
+      // Do.
+
+      // Start expanded (transitioning to collapsed).
+      if (this.collapsed) {
+        container.style.height = fullHeight + 'px'; // Height 'auto'.
+      // Start collapsed (transitioning to expanded).
+      } else {
+        container.style.height = ''; // Height specified by CSS rule.
+      }
+
+      requestAnimationFrame(function() {
+        this.toggleAttribute('_collapsed', collapsed);
+
+        // End collapsed.
+        if (this.collapsed) {
+          container.style.height = ''; // Height specified by CSS rule.
+        // End expanded.
+        } else {
+          container.style.height = fullHeight + 'px'; // Height 'auto'.
+        }
+      }.bind(this));
     },
 
     /**
