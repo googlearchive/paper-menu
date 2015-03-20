@@ -126,7 +126,6 @@ Give it a hydrolysis `PropertyDescriptor` (via `descriptor`), and watch it go!
 
       var jsdoc = this.descriptor.jsdoc || {};
       var tags  = jsdoc && jsdoc.tags;
-      console.log(tags);
       this._model = {
         name: this.descriptor.name,
         type: getTag(tags, 'type', 'type') || this.descriptor.type,
