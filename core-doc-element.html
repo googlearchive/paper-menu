@@ -16,7 +16,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <!--
 Renders documentation describing an element's API.
 
-`core-doc-element-page` renders element descriptions as extracted by
+`core-doc-element` renders element descriptions as extracted by
 [Hydrolysis](https://github.com/PolymerLabs/hydrolysis). You can provide them
 either via binding...
 
@@ -39,9 +39,9 @@ the text content will not be respected, only the initial value will be loaded.
 If you wish to update the documented element, please set it via the `descriptor`
 property.
 -->
-<dom-module id="core-doc-element-page">
+<dom-module id="core-doc-element">
 
-  <link rel="import" type="css" href="core-doc-element-page.css">
+  <link rel="import" type="css" href="core-doc-element.css">
 
   <template>
 
@@ -91,7 +91,7 @@ property.
 
   Polymer({
 
-    is: 'core-doc-element-page',
+    is: 'core-doc-element',
 
     properties: {
       /**
@@ -124,7 +124,7 @@ property.
             'and JSON descriptor:', this._jsonDescriptor,
             'Please provide only one');
         throw new Error(
-            '<core-doc-element-page> accepts either a bound or JSON descriptor; not both');
+            '<core-doc-element> accepts either a bound or JSON descriptor; not both');
       }
 
       return {

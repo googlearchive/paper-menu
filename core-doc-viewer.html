@@ -7,7 +7,7 @@ The complete set of contributors may be found at http://polymer.github.io/CONTRI
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
-<link rel="import" href="core-doc-element-page.html">
+<link rel="import" href="core-doc-element.html">
 <link rel="import" href="../core-asset/core-asset.html">
 <link rel="import" href="../hydrolysis/hydrolysis.html">
 
@@ -30,7 +30,7 @@ analyze its source and render docs based on that. No offline processing needed.
 
   <template>
     <core-asset id="root" href="{{src}}"></core-asset>
-    <core-doc-element-page id="page" descriptor="{{_element}}"></core-doc-element-page>
+    <core-doc-element id="page" descriptor="{{_element}}"></core-doc-element>
   </template>
 
 </dom-module>
