@@ -76,7 +76,6 @@ Give it a hydrolysis `PropertyDescriptor` (via `descriptor`), and watch it go!
     },
 
     listeners: {
-      'click':               '_onClick',
       'transitionEnd':       '_onTransitionEnd',
       'webkitTransitionEnd': '_onTransitionEnd',
     },
@@ -87,11 +86,6 @@ Give it a hydrolysis `PropertyDescriptor` (via `descriptor`), and watch it go!
 
     ready: function() {
       this._isReady = true;
-    },
-
-    /** Toggles `collapsed`. */
-    _onClick: function() {
-      this.collapsed = !this.collapsed;
     },
 
     /**

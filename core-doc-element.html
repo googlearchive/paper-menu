@@ -45,11 +45,16 @@ property.
 
   <template>
 
-    <header class="paper-font-display2">&lt;<span>{{_model.is}}</span>&gt;</header>
+    <header class="paper-font-display1">&lt;<span>{{_model.is}}</span>&gt;</header>
 
     <section id="summary">
       <mark-down text="{{_model.summary}}"></mark-down>
     </section>
+
+    <nav id="api">
+      <header class="paper-font-headline">API Reference</header>
+      <a id="collapseToggle" on-tap="_toggleCollapsed" class="paper-font-button">{{_collapseToggleLabel}}</a>
+    </nav>
 
     <section id="properties">
       <header class="paper-font-headline">Properties</header>
@@ -94,6 +99,7 @@ property.
     is: 'core-doc-element',
 
     properties: {
+
       /**
        * The [Hydrolysis](https://github.com/PolymerLabs/hydrolysis)-generated
        * element descriptor to display details for.
@@ -107,6 +113,17 @@ property.
         type: Object,
         observer: '_descriptorChanged',
       },
+
+      /** Whether properties should be expanded or collapsed. */
+      _collapsed: {
+        type:     Boolean,
+        value:    false,
+        observer: '_collapsedChanged',
+      },
+
+      /** The label to show for the collapse/expand button. */
+      _collapseToggleLabel: String,
+
     },
 
     hostAttributes: {
@@ -166,6 +183,20 @@ property.
         methods:    methods,
         summary:    this.descriptor.desc,
       };
+    },
+
+    _collapsedChanged: function() {
+      this._collapseToggleLabel = this._collapsed ? 'expand' : 'collapse';
+
+      // Bound values aren't exposed to x-repeat's scope.
+      var properties = this.querySelectorAll('core-doc-property');
+      for (var i = 0, property; property = properties[i]; i++) {
+        property.collapsed = this._collapsed;
+      }
+    },
+
+    _toggleCollapsed: function() {
+      this._collapsed = !this._collapsed;
     },
 
   });

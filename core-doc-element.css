@@ -22,6 +22,17 @@ header {
   padding: 0 16px;
 }
 
+#api {
+  display: flex;
+  align-items: center;
+}
+#api header {
+  flex: 1;
+}
+#api #collapseToggle {
+  cursor: pointer;
+}
+
 /* Common Formatting */
 
 mark-down::shadow pre {
@@ -30,7 +41,7 @@ mark-down::shadow pre {
   padding: 12px 16px;
 }
 
-  /* Dupe of .paper-font-code1 */
+/* Dupe of .paper-font-code1 */
 mark-down::shadow code {
   font-family: 'Inconsolata', 'Consolas', 'Source Code Pro', 'Monaco', 'Menlo', monospace;
   font-size: 14px;
