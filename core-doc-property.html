@@ -89,15 +89,24 @@ Give it a hydrolysis `PropertyDescriptor` (via `descriptor`), and watch it go!
       this._isReady = true;
     },
 
+    /** Toggles `collapsed`. */
     _onClick: function() {
       this.collapsed = !this.collapsed;
     },
 
+    /**
+     * Resets any state that was set up for transitions.
+     *
+     * We are careful to reset our explicit heights after a transition
+     * completes, so that the property doesn't clip values if the user resizes
+     * their viewport.
+     */
     _onTransitionEnd: function(event) {
       if (event.path[0] !== this.$.transitionMask) return;
       this.$.transitionMask.style.height = '';
     },
 
+    /** Converts `descriptor` into our template-friendly `_model`. */
     _descriptorChanged: function() {
       if (!this.descriptor) return;
 
@@ -110,6 +119,17 @@ Give it a hydrolysis `PropertyDescriptor` (via `descriptor`), and watch it go!
       };
     },
 
+    /**
+     * Reflects `collapsed` as the `_collapsed` attribute.
+     *
+     * "Why not use `reflectToAttribute: true`?", you ask? A fine question!
+     *
+     * We avoid simple reflection purely because there is no purely declarative
+     * way of transitioning to/from `height: auto`. This callback manages
+     * setting explicit heights for the property so that CSS can interpolate it.
+     *
+     * @see #_onTransitionEnd
+     */
     _collapsedChanged: function() {
       if (!this._isReady) {
         this.toggleAttribute('_collapsed', this.collapsed);
@@ -119,27 +139,26 @@ Give it a hydrolysis `PropertyDescriptor` (via `descriptor`), and watch it go!
       var container = this.$.transitionMask;
       var collapsed = this.collapsed;
 
-      // Measure.
+      // Measure `height: auto`, which we will need regardless of transition
+      // direction. We assume that the collapsed state has an explicit height
+      // set via CSS rules; so we do not bother measuring that.
       container.style.height = 'auto';
       var fullHeight = container.offsetHeight;
 
-      // Do.
-
-      // Start expanded (transitioning to collapsed).
+      // Then, we reset to the start state. Changing directions mid-transition
+      // is _not_ supported!
       if (this.collapsed) {
         container.style.height = fullHeight + 'px'; // Height 'auto'.
-      // Start collapsed (transitioning to expanded).
       } else {
         container.style.height = ''; // Height specified by CSS rule.
       }
 
+      // We must wait a frame so that the transition engine has a chance to know
+      // that something actually changed.
       requestAnimationFrame(function() {
         this.toggleAttribute('_collapsed', collapsed);
-
-        // End collapsed.
         if (this.collapsed) {
           container.style.height = ''; // Height specified by CSS rule.
-        // End expanded.
         } else {
           container.style.height = fullHeight + 'px'; // Height 'auto'.
         }
