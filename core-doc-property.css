@@ -16,20 +16,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 #transitionMask {
   position: relative;
   overflow: hidden;
-  padding-left: 176px;
+  display: flex;
 }
 
 [hidden] {
   display: none;
 }
 
-/* Identity */
-
 #name {
-  position: absolute;
-  left: 0;
-  top: 0;
   width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#details {
+  flex: 1;
 }
 
 /* Metadata */
