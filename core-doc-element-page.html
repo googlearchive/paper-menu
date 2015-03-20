@@ -73,9 +73,20 @@ property.
 (function() {
 
   // TODO(nevir): We should move most of this knowledge into Hydrolysis!
-  var RESERVED_NAMES = [
-    'properties',
+  var ELEMENT_CONFIGURATION = [
+    'attached',
+    'attributeChanged',
+    'constructor',
+    'created',
+    'detached',
+    'extends',
     'hostAttributes',
+    'is',
+    'listeners',
+    'mixins',
+    'observers',
+    'properties',
+    'ready',
   ];
 
   Polymer({
@@ -145,7 +156,7 @@ property.
       var methods    = [];
 
       for (var i = 0, property; property = this.descriptor.properties[i]; i++) {
-        if (RESERVED_NAMES.indexOf(property.name) !== -1) continue;
+        if (ELEMENT_CONFIGURATION.indexOf(property.name) !== -1) continue;
         (property.type === 'Function' ? methods : properties).push(property);
       }
 
