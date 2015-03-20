@@ -28,9 +28,12 @@ header {
 }
 #api header {
   flex: 1;
+  padding-left: 16px;
 }
 #api #collapseToggle {
   cursor: pointer;
+  display: block;
+  padding: 4px 16px;
 }
 
 /* Common Formatting */
