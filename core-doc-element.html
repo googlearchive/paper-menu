@@ -53,7 +53,8 @@ property.
 
     <nav id="api">
       <header class="paper-font-headline">API Reference</header>
-      <a id="collapseToggle" on-tap="_toggleCollapsed" class="paper-font-button">{{_collapseToggleLabel}}</a>
+      <a id="togglePrivate" on-tap="_togglePrivate" class="paper-font-button">{{_privateToggleLabel}}</a>
+      <a id="toggleCollapsed" on-tap="_toggleCollapsed" class="paper-font-button">{{_collapseToggleLabel}}</a>
     </nav>
 
     <section id="properties">
@@ -124,6 +125,16 @@ property.
 
       /** The label to show for the collapse/expand button. */
       _collapseToggleLabel: String,
+
+      /** Whether private properties should be hidden or shown. */
+      _showPrivate: {
+        type:     Boolean,
+        value:    false,
+        observer: '_showPrivateChanged',
+      },
+
+      /** The label to show for the collapse/expand button. */
+      _privateToggleLabel: String,
 
     },
 
@@ -198,6 +209,15 @@ property.
 
     _toggleCollapsed: function() {
       this._collapsed = !this._collapsed;
+    },
+
+    _showPrivateChanged: function() {
+      this._privateToggleLabel = (this._showPrivate ? 'hide' : 'show') + ' private API';
+      this.toggleClass('show-private', this._showPrivate);
+    },
+
+    _togglePrivate: function() {
+      this._showPrivate = !this._showPrivate;
     },
 
   });

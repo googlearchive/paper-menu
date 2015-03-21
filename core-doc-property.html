@@ -84,13 +84,17 @@ Give it a hydrolysis `PropertyDescriptor` (via `descriptor`), and watch it go!
        * Note that this property _is_ reflected as an attribute, but we perform
        * the reflection manually. In order to support the CSS transitions, we
        * must calculate the element height before setting the attribute.
-       *
-       * @see #_collapsedChanged
        */
       collapsed: {
         type:     Boolean,
         value:    false,
         observer: '_collapsedChanged',
+      },
+
+      /** Whether the property is a private property. */
+      private: {
+        type:               Boolean,
+        reflectToAttribute: true,
       },
 
     },
@@ -122,7 +126,13 @@ Give it a hydrolysis `PropertyDescriptor` (via `descriptor`), and watch it go!
 
     /** Converts `descriptor` into our template-friendly `_model`. */
     _descriptorChanged: function() {
-      if (!this.descriptor) return;
+      if (!this.descriptor) {
+        this.private = false;
+        this._model = {};
+        return;
+      }
+
+      this.private = this._isPrivateProperty(this.descriptor);
 
       var jsdoc = this.descriptor.jsdoc || {};
       var tags  = jsdoc && jsdoc.tags;

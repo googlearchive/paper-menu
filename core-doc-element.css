@@ -30,10 +30,13 @@ header {
   flex: 1;
   padding-left: 16px;
 }
-#api #collapseToggle {
+#api a {
   cursor: pointer;
   display: block;
   padding: 4px 16px;
+}
+#api #togglePrivate {
+  opacity: 0.5;
 }
 
 /* Common Formatting */
@@ -92,4 +95,14 @@ core-doc-property {
 }
 core-doc-property:last-of-type {
   border-bottom-width: 0;
+}
+
+/* Private Properties */
+
+core-doc-property[private] {
+  display: none;
+}
+
+:host(.show-private) core-doc-property[private] {
+  display: block;
 }
