@@ -7,87 +7,168 @@ The complete set of contributors may be found at http://polymer.github.io/CONTRI
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
-<link rel="import" href="core-doc-element.html">
-<link rel="import" href="../core-asset/core-asset.html">
 <link rel="import" href="../hydrolysis/hydrolysis.html">
 
-<!--
-Renders documentation for a Polymer component.
+<link rel="import" href="core-doc-element.html">
 
-`core-doc-viewer` will load the component (and eventually its dependencies),
-analyze its source and render docs based on that. No offline processing needed.
+<!--
+Renders documentation for all Polymer elements declared via an import.
+
+Point it at an import that declares (or transitively imports) all the elments
+you want to document:
+
+    <core-doc-viewer src="my-elements.html"></core-doc-viewer>
+
 -->
 <dom-module id="core-doc-viewer">
 
-  <style>
-    #page {
-      display: none;
-    }
-    #page.active {
-      display: block;
-    }
-  </style>
+  <link rel="import" type="css" href="core-doc-viewer.css">
 
   <template>
-    <core-asset id="root" href="{{src}}"></core-asset>
-    <core-doc-element id="page" descriptor="{{_element}}"></core-doc-element>
+    <core-doc-element id="page" descriptor="{{_activeElement}}"></core-doc-element>
+    <nav>
+      <header class="paper-font-subhead">Elements</header>
+      <ul on-tap="_onTapNavItem">
+        <template is="x-repeat" items="{{_elements}}">
+          <li class="paper-font-button">{{item.is}}</li>
+        </template>
+      </ul>
+    </nav>
   </template>
 
 </dom-module>
 
 <script>
+(function() {
+var hydrolysis = require('hydrolysis');
 
   Polymer({
 
     is: 'core-doc-viewer',
 
     properties: {
-      /**
-       * The URL to fetch component source from.
-       *
-       * If the URL is relative, it will be resolved relative to the current
-       * import.
-       */
-      src: String,
 
-      /** TODO(nevir): Support more than one element! */
-      _element: Object,
+      /**
+       * The URL to an import that declares (or transitively imports) the
+       * elements that you wish to see documented.
+       *
+       * If the URL is relative, it will be resolved relative to the master
+       * document.
+       *
+       * If you change this value after the `<core-doc-viewer>` has been
+       * instantiated, you must call `load()`.
+       */
+      src: {
+        type: String,
+      },
+
+      /**
+       * The root URL to evaluate imports under. Any imports that are referenced
+       * outside of this root will be _ignored_.
+       *
+       * If you do not specify a root, this defaults to the directory that
+       * contains `src`.
+       *
+       * If you change this value after the `<core-doc-viewer>` has been
+       * instantiated, you must call `load()`.
+       */
+      rootUrl: {
+        type: String,
+      },
+
+      /**
+       * The currently displayed element.
+       *
+       * @type {!hydrolysis.ElementDescriptor}
+       */
+      _activeElement: Object,
+
     },
 
-    /** @override */
     ready: function() {
-      this.$.root.load().then(this._processSource.bind(this), function(error) {
-        console.error('Failed to load src for', this, error);
+      this.load();
+    },
+
+    /**
+     * Begins loading the imports referenced by `src`.
+     *
+     * If you make changes to `src` or `rootUrl`, you must call this to view
+     * their results.
+     */
+    load: function() {
+      if (!this.src) {
+        console.error('Expected src to be set for', this);
+        return;
+      }
+
+      var baseUri = this.ownerDocument.baseURI;
+      var srcUrl  = new URL(this.src, baseUri).toString();
+      var rootUrl;
+      if (this.rootUrl) {
+        rootUrl = new URL(this.rootUrl).toString();
+      } else {
+        rootUrl = new URL('.', srcUrl).toString();
+      }
+
+      this._loader = new hydrolysis.loader();
+      this._loader.addResolver(new hydrolysis.xhrResolver());
+      // The *last* resolver is the most specific.
+      this._loader.addResolver(new hydrolysis.noopResolver({
+        test: function(uri) {
+          var fullUrl = new URL(uri, baseUri).toString();
+          return fullUrl.indexOf(rootUrl) !== 0;
+        },
+      }));
+
+      // TODO(nevir): This should be a helper in the Hydrolysis lib.
+      this._loader.request(srcUrl.toString()).then(function(content) {
+        this._monomers = new hydrolysis.monomers(content, false, this.src, this._loader);
+        return this._monomers.metadataTree().then(this._processTree.bind(this));
+      }.bind(this), function(error) {
+        console.error('Failed to load source at:', this.src, error);
       }.bind(this));
     },
 
     /**
-     * @param {string} source The HTML source that documentation should be
-     *     extracted from.
+     * Extracts elements from a materialized Hydrolysis import tree.
+     *
+     * @param {!hydrolysis.ImportDescriptor} tree
      */
-    _processSource: function(source) {
-      if (!source) {
-        console.error('Failed to load src for', this, '404');
-        return;
-      }
+    _processTree: function(tree) {
+      this.classList.add('loaded');
+      this._elements = this._findElements(tree);
+      this._elements.forEach(hydrolysis.docs.annotateElement);
+      this._activeElement = this._elements[0];
+    },
 
-      var hydrolysis = require('hydrolysis');
-      hydrolysis.hydrolyze(source).then(function(parsed) {
-        var element = parsed.elements[0];
-        if (!element) {
-          console.error('No element found at', this.src);
+    /**
+     * Recursively finds all elements declared by `tree` and its dependencies.
+     *
+     * @param {!hydrolysis.ImportDescriptor} tree
+     * @return {!Array<hydrolysis.ElementDescriptor>}
+     */
+    _findElements: function(node) {
+      return (node.imports || []).reduce(function(elements, childNode) {
+        return elements.concat(this._findElements(childNode));
+      }.bind(this), node.elements || []);
+    },
+
+    /**
+     * Activates the element that the user selected.
+     *
+     * @param {!Event} event
+     */
+    _onTapNavItem: function(event) {
+      var elementName = event.target.textContent;
+      for (var i = 0, element; element = this._elements[i]; i++) {
+        if (element.is === elementName) {
+          this._activeElement = element;
           return;
         }
-
-        this._element = hydrolysis.docs.annotateElement(element);
-        console.log('Documenting first element:', this._element);
-        this.$.page.classList.toggle('active', !!this._element);
-
-      }.bind(this), function(error) {
-        console.error('Failed to parse element at', this.src, error);
-      }.bind(this));
+      }
     },
 
   });
 
+})();
 </script>
