@@ -110,10 +110,10 @@ var hydrolysis = require('hydrolysis');
         rootUrl = new URL('.', srcUrl).toString();
       }
 
-      this._loader = new hydrolysis.loader();
-      this._loader.addResolver(new hydrolysis.xhrResolver());
+      this._loader = new hydrolysis.Loader();
+      this._loader.addResolver(new hydrolysis.XHRResolver());
       // The *last* resolver is the most specific.
-      this._loader.addResolver(new hydrolysis.noopResolver({
+      this._loader.addResolver(new hydrolysis.NoopResolver({
         test: function(uri) {
           var fullUrl = new URL(uri, baseUri).toString();
           return fullUrl.indexOf(rootUrl) !== 0;
@@ -121,12 +121,12 @@ var hydrolysis = require('hydrolysis');
       }));
 
       // TODO(nevir): This should be a helper in the Hydrolysis lib.
-      this._loader.request(srcUrl.toString()).then(function(content) {
-        this._monomers = new hydrolysis.monomers(content, false, this.src, this._loader);
-        return this._monomers.metadataTree().then(this._processTree.bind(this));
-      }.bind(this), function(error) {
-        console.error('Failed to load source at:', this.src, error);
-      }.bind(this));
+      this._monomers = new hydrolysis.Monomers(false, this._loader);
+      this._monomers.metadataTree(srcUrl.toString())
+          .then(this._processTree.bind(this))
+          .catch(function(error) {
+            console.error('Failed to load source at:', this.src, error);
+          }.bind(this));
     },
 
     /**
