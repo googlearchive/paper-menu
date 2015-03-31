@@ -120,9 +120,8 @@ var hydrolysis = require('hydrolysis');
         },
       }));
 
-      // TODO(nevir): This should be a helper in the Hydrolysis lib.
-      this._monomers = new hydrolysis.Monomers(false, this._loader);
-      this._monomers.metadataTree(srcUrl.toString())
+      this._analyzer = new hydrolysis.Analyzer(false, this._loader);
+      this._analyzer.metadataTree(srcUrl.toString())
           .then(this._processTree.bind(this))
           .catch(function(error) {
             console.error('Failed to load source at:', this.src, error);
