@@ -20,7 +20,7 @@
     "/demo/"
   ],
   "dependencies": {
-    "hydrolysis": "PolymerLabs/hydrolysis#0.1.0",
+    "hydrolysis": "PolymerLabs/hydrolysis#^1.0.0",
     "mark-down": "robdodson/mark-down#0.8-preview",
     "paper-styles": "PolymerLabs/paper-styles",
     "polymer": "Polymer/polymer#0.8-preview"
