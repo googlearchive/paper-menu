@@ -1,19 +1,19 @@
 {
-  "name": "core-doc-viewer",
+  "name": "iron-doc-viewer",
   "version": "0.8.0",
   "authors": [
     "Ian MacLeod <imac@google.com>",
     "The Polymer Authors"
   ],
-  "description": "A suite of elements that render documentation for Polymer components.",
+  "description": "Elements for rendering Polymer component documentation.",
   "keywords": [
     "web-component",
     "web-components",
     "polymer"
   ],
-  "main": "core-doc-viewer.html",
+  "main": "iron-doc-viewer.html",
   "license": "MIT",
-  "homepage": "https://github.com/Polymer/core-doc-viewer/",
+  "homepage": "https://github.com/PolymerElements/iron-doc-viewer/",
   "ignore": [
     "/.*",
     "/tests/",
@@ -21,7 +21,7 @@
   ],
   "dependencies": {
     "hydrolysis": "PolymerLabs/hydrolysis#^1.0.0",
-    "mark-down": "robdodson/mark-down#0.8-preview",
+    "marked-element": "PolymerLabs/marked-element#0.8-preview",
     "paper-styles": "PolymerLabs/paper-styles",
     "polymer": "Polymer/polymer#0.8-preview"
   },

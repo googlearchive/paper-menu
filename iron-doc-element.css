@@ -75,7 +75,7 @@ mark-down::shadow code {
   background-color: rgb(255, 86, 33);
 }
 #properties,
-#properties core-doc-property {
+#properties iron-doc-property {
   border-color: rgb(255, 86, 33);
 }
 
@@ -86,23 +86,23 @@ mark-down::shadow code {
   background-color: rgb(0, 190, 164);
 }
 #methods,
-#methods core-doc-property {
+#methods iron-doc-property {
   border-color: rgb(0, 190, 164);
 }
 
-core-doc-property {
+iron-doc-property {
   border-bottom: 1px solid;
 }
-core-doc-property:last-of-type {
+iron-doc-property:last-of-type {
   border-bottom-width: 0;
 }
 
 /* Private Properties */
 
-core-doc-property[private] {
+iron-doc-property[private] {
   display: none;
 }
 
-:host(.show-private) core-doc-property[private] {
+:host(.show-private) iron-doc-property[private] {
   display: block;
 }

@@ -19,48 +19,48 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <script src="../../test-fixture/test-fixture-mocha.js"></script>
     <link rel="import" href="../../polymer/polymer.html">
     <link rel="import" href="../../test-fixture/test-fixture.html">
-    <link rel="import" href="../iron-doc-element.html">
+    <link rel="import" href="../core-doc-element.html">
   </head>
   <body>
 
-    <iron-doc-element>
+    <core-doc-element>
       {
         "is": "awesome-sauce",
         "properties": [
           {"name": "isAwesome", "type": "boolean", "desc": "Is it awesome?"}
         ]
       }
-    </iron-doc-element>
+    </core-doc-element>
 
     <test-fixture id="bound">
       <template is="x-template">
-        <iron-doc-element descriptor="{{descriptor}}" bound></iron-doc-element>
+        <core-doc-element descriptor="{{descriptor}}" bound></core-doc-element>
       </template>
     </test-fixture>
 
     <test-fixture id="json">
       <template is="x-template">
-        <iron-doc-element json>
+        <core-doc-element json>
           {
             "is": "awesome-sauce",
             "properties": [
               {"name": "isAwesome", "type": "boolean", "desc": "Is it awesome?"}
             ]
           }
-        </iron-doc-element>
+        </core-doc-element>
       </template>
     </test-fixture>
 
     <test-fixture id="json-and-bound">
       <template is="x-template">
-        <iron-doc-element descriptor="{{descriptor}}" jsonbound>
+        <core-doc-element descriptor="{{descriptor}}" jsonbound>
           {
             "is": "awesome-sauce",
             "properties": [
               {"name": "isAwesome", "type": "boolean", "desc": "Is it awesome?"}
             ]
           }
-        </iron-doc-element>
+        </core-doc-element>
       </template>
     </test-fixture>
 
@@ -73,7 +73,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         ]
       };
 
-      describe('<iron-doc-element>', function() {
+      describe('<core-doc-element>', function() {
 
         var page;
         afterEach(function() {

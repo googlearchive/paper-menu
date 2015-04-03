@@ -9,7 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 <link rel="import" href="../hydrolysis/hydrolysis.html">
 
-<link rel="import" href="core-doc-element.html">
+<link rel="import" href="iron-doc-element.html">
 
 <!--
 Renders documentation for all Polymer elements declared via an import.
@@ -17,15 +17,15 @@ Renders documentation for all Polymer elements declared via an import.
 Point it at an import that declares (or transitively imports) all the elments
 you want to document:
 
-    <core-doc-viewer src="my-elements.html"></core-doc-viewer>
+    <iron-doc-viewer src="my-elements.html"></iron-doc-viewer>
 
 -->
-<dom-module id="core-doc-viewer">
+<dom-module id="iron-doc-viewer">
 
-  <link rel="import" type="css" href="core-doc-viewer.css">
+  <link rel="import" type="css" href="iron-doc-viewer.css">
 
   <template>
-    <core-doc-element id="page" descriptor="{{_activeElement}}"></core-doc-element>
+    <iron-doc-element id="page" descriptor="{{_activeElement}}"></iron-doc-element>
     <nav>
       <header class="paper-font-subhead">Elements</header>
       <ul on-tap="_onTapNavItem">
@@ -44,7 +44,7 @@ var hydrolysis = require('hydrolysis');
 
   Polymer({
 
-    is: 'core-doc-viewer',
+    is: 'iron-doc-viewer',
 
     properties: {
 
@@ -55,7 +55,7 @@ var hydrolysis = require('hydrolysis');
        * If the URL is relative, it will be resolved relative to the master
        * document.
        *
-       * If you change this value after the `<core-doc-viewer>` has been
+       * If you change this value after the `<iron-doc-viewer>` has been
        * instantiated, you must call `load()`.
        */
       src: {
@@ -69,7 +69,7 @@ var hydrolysis = require('hydrolysis');
        * If you do not specify a root, this defaults to the directory that
        * contains `src`.
        *
-       * If you change this value after the `<core-doc-viewer>` has been
+       * If you change this value after the `<iron-doc-viewer>` has been
        * instantiated, you must call `load()`.
        */
       rootUrl: {

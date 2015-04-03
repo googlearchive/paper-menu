@@ -13,7 +13,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 :host(.loaded) {
   display: flex;
 }
-core-doc-element {
+iron-doc-element {
   flex-basis: 100%;
 }
 nav {
