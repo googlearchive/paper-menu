@@ -18,7 +18,7 @@ header {
   color: #e91e63
 }
 
-#summary mark-down::shadow p {
+#summary marked-element::shadow #content p {
   padding: 0 16px;
 }
 
@@ -41,14 +41,14 @@ header {
 
 /* Common Formatting */
 
-mark-down::shadow pre {
+#summary marked-element::shadow #content pre {
   background-color: #fafafa;
   overflow-x: auto;
   padding: 12px 16px;
 }
 
 /* Dupe of .paper-font-code1 */
-mark-down::shadow code {
+#summary marked-element::shadow #content code {
   font-family: 'Inconsolata', 'Consolas', 'Source Code Pro', 'Monaco', 'Menlo', monospace;
   font-size: 14px;
   font-weight: 700;

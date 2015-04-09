@@ -57,6 +57,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 /* Description */
 
 #desc {
+  display: block;
   padding-top: 8px;
 }
 
