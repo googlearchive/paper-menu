@@ -23,7 +23,8 @@
     "hydrolysis": "PolymerLabs/hydrolysis#^1.0.0",
     "marked-element": "PolymerLabs/marked-element#0.8-preview",
     "paper-styles": "PolymerLabs/paper-styles",
-    "polymer": "Polymer/polymer#0.8-preview"
+    "polymer": "Polymer/polymer#0.8-preview",
+    "prism-highlighter": "PolymerElements/prism-highlighter#master"
   },
   "devDependencies": {
     "test-fixture": "Polymer/test-fixture",
