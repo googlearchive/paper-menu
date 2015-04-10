@@ -192,10 +192,14 @@ property.
 
       this._model = {
         is:         this.descriptor.is,
-        properties: properties,
-        methods:    methods,
+        properties: this._sortProperties(properties),
+        methods:    this._sortProperties(methods),
         summary:    this.descriptor.desc,
       };
+    },
+
+    _sortProperties: function(properties) {
+      return properties.sort(function(a, b) { return a.name.localeCompare(b.name); });
     },
 
     _collapsedChanged: function() {
