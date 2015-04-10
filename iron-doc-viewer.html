@@ -141,7 +141,7 @@ var hydrolysis = require('hydrolysis');
       this._root = root;
 
       var features = this._findFeatures(root);
-      // features.forEach(hydrolysis.docs.annotateFeature);
+      features.forEach(hydrolysis.docs.annotateFeature);
       var elements = this._findElements(root);
       elements.forEach(hydrolysis.docs.annotateElement);
 
