@@ -125,7 +125,7 @@ var hydrolysis = require('hydrolysis');
 
       this._analyzer = new hydrolysis.Analyzer(false, this._loader);
       this._analyzer.metadataTree(srcUrl.toString())
-          .then(this._processTree.bind(this))
+          .then(this._processRoot.bind(this))
           .catch(function(error) {
             console.error('Failed to load source at:', this.src, error);
           }.bind(this));
@@ -134,25 +134,62 @@ var hydrolysis = require('hydrolysis');
     /**
      * Extracts elements from a materialized Hydrolysis import tree.
      *
-     * @param {!hydrolysis.ImportDescriptor} tree
+     * @param {!hydrolysis.ImportDescriptor} root
      */
-    _processTree: function(tree) {
-      this.classList.add('loaded');
-      this._elements = this._findElements(tree);
-      this._elements.forEach(hydrolysis.docs.annotateElement);
+    _processRoot: function(root) {
+      this._root = root;
+
+      var features = this._findFeatures(root);
+      // features.forEach(hydrolysis.docs.annotateFeature);
+      var elements = this._findElements(root);
+      elements.forEach(hydrolysis.docs.annotateElement);
+
+      this._elements      = elements.concat(this._featureElements(features));
       this._activeElement = this._elements[0];
+
+      this.classList.add('loaded');
     },
 
     /**
-     * Recursively finds all elements declared by `tree` and its dependencies.
+     * Recursively finds all elements declared by `node` and its dependencies.
      *
-     * @param {!hydrolysis.ImportDescriptor} tree
+     * @param {!hydrolysis.ImportDescriptor} node
      * @return {!Array<hydrolysis.ElementDescriptor>}
      */
     _findElements: function(node) {
       return (node.imports || []).reduce(function(elements, childNode) {
         return elements.concat(this._findElements(childNode));
       }.bind(this), node.elements || []);
+    },
+
+    /**
+     * Recursively finds all features declared by `node` and its dependencies.
+     *
+     * @param {!hydrolysis.ImportDescriptor} node
+     * @return {!Array<hydrolysis.FeatureDescriptor>}
+     */
+    _findFeatures: function(node) {
+      return (node.imports || []).reduce(function(features, childNode) {
+        return features.concat(this._findFeatures(childNode));
+      }.bind(this), node.features || []);
+    },
+
+    /**
+     *
+     */
+    _featureElements: function(features) {
+      if (features.length === 0) return [];
+
+      var properties = features.reduce(function(result, feature) {
+        return result.concat(feature.properties);
+      }, []);
+
+      return [{
+        is: 'Polymer.Base',
+        abstract: true,
+        properties: properties,
+        desc: undefined,
+      }];
     },
 
     /**
