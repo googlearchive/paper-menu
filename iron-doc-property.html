@@ -22,13 +22,13 @@ Give it a hydrolysis `PropertyDescriptor` (via `descriptor`), and watch it go!
 
   <template>
     <div id="transitionMask">
-      <div id="name">{{_model.name}}</div>
+      <div id="name">{{descriptor.name}}</div>
       <div id="details">
         <div id="meta">
-          <span id="type">{{_model.type}}</span>
-          <span id="default" hidden$="{{!_model.default}}">default: <span class="value">{{_model.default}}</span></span>
+          <span id="type">{{descriptor.type}}</span>
+          <span id="default" hidden$="{{!descriptor.default}}">default: <span class="value">{{descriptor.default}}</span></span>
         </div>
-        <marked-element id="desc" markdown="{{_model.desc}}" hidden$="{{!_model.desc}}"></marked-element>
+        <marked-element id="desc" markdown="{{descriptor.desc}}" hidden$="{{!descriptor.desc}}"></marked-element>
       </div>
     </div>
   </template>
@@ -37,26 +37,6 @@ Give it a hydrolysis `PropertyDescriptor` (via `descriptor`), and watch it go!
 
 <script>
 (function() {
-
-  // TODO(nevir): Consider setting up a helper lib exported from hydrolysis.
-
-  /**
-   * Finds the first JSDoc tag matching `name` and returns its value at `key`.
-   *
-   * @param {Array<hydrolysis.JSDocTag>} jsdocTags
-   * @param {string} tagName
-   * @param {string} key
-   * @return {?string}
-   */
-  function getTag(tags, tagName, key) {
-    if (!tags) return null;
-    for (var i = 0, tag; tag = tags[i]; i++) {
-      if (tag.tag === tagName) {
-        return tag[key];
-      }
-    }
-    return null;
-  }
 
   Polymer({
 
@@ -93,12 +73,6 @@ Give it a hydrolysis `PropertyDescriptor` (via `descriptor`), and watch it go!
         observer: '_collapsedChanged',
       },
 
-      /** Whether the property is a private property. */
-      private: {
-        type:               Boolean,
-        reflectToAttribute: true,
-      },
-
     },
 
     listeners: {
@@ -122,24 +96,9 @@ Give it a hydrolysis `PropertyDescriptor` (via `descriptor`), and watch it go!
       this.$.transitionMask.style.height = '';
     },
 
-    /** Converts `descriptor` into our template-friendly `_model`. */
     _descriptorChanged: function() {
-      if (!this.descriptor) {
-        this.private = false;
-        this._model = {};
-        return;
-      }
-
-      this.private = this._isPrivateProperty(this.descriptor);
-
-      var jsdoc = this.descriptor.jsdoc || {};
-      var tags  = jsdoc && jsdoc.tags;
-      this._model = {
-        name: this.descriptor.name,
-        type: getTag(tags, 'type', 'type') || this.descriptor.type,
-        desc: jsdoc ? jsdoc.body : this.descriptor.desc,
-        // default: "'abc123'",
-      };
+      this.toggleAttribute('private',       this.descriptor.private);
+      this.toggleAttribute('configuration', this.descriptor.configuration);
     },
 
     /**
@@ -186,21 +145,6 @@ Give it a hydrolysis `PropertyDescriptor` (via `descriptor`), and watch it go!
           container.style.height = fullHeight + 'px'; // Height 'auto'.
         }
       }.bind(this));
-    },
-
-    /**
-     * Determines whether the property should be shown.
-     *
-     * By default, private properties and reserved names (Polymer configuration)
-     * are filtered out.
-     *
-     * @param {!hydrolysis.PropertyDescriptor} property The descriptor to test.
-     * @return {boolean} Whether it should be shown.
-     */
-    _isPrivateProperty: function(property) {
-      if (property.private) return true; // For future support.
-      if (property.name[0] === '_') return true;
-      return false;
     },
 
   });
