@@ -1,0 +1,35 @@
+{
+  "name": "paper-menu",
+  "version": "0.8.0",
+  "authors": [
+    "Yvonne Yip <ykyyip@google.com>"
+  ],
+  "keywords": [
+    "web-components",
+    "web-component",
+    "polymer"
+  ],
+  "main": "index.html",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/PolymerElements/paper-menu"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/PolymerElements/paper-menu",
+  "ignore": [
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#0.8-preview",
+    "core-selector": "Polymer/core-selector#0.8-preview",
+    "layout": "Polymer/layout",
+    "paper-styles": "PolymerLabs/paper-styles"
+  },
+  "devDependencies": {
+    "webcomponentsjs": "Polymer/webcomponentsjs",
+    "iron-doc-viewer": "PolymerElements/iron-doc-viewer#master",
+    "paper-item": "PolymerElements/paper-item#master",
+    "test-fixture": "Polymer/test-fixture#master",
+    "web-component-tester": "Polymer/web-component-tester#^2.2.0"
+  }
+}
