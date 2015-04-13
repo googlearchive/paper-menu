@@ -7,8 +7,9 @@ The complete set of contributors may be found at http://polymer.github.io/CONTRI
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
-<link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../hydrolysis/hydrolysis.html">
+<link rel="import" href="../paper-styles/x-typography.html">
+<link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../prism-highlighter/prism-highlighter.html">
 
 <link rel="import" href="iron-doc-element.html">
@@ -34,7 +35,7 @@ you want to document:
       <ul on-tap="_onTapNavItem">
         <!-- Polymer features are crazy special cased as `Polymer.Base`. -->
         <template is="x-repeat" items="{{_elements}}">
-          <li class="paper-font-code1" abstract$="{{item.abstract}}">{{item.is}}</li>
+          <li abstract$="{{item.abstract}}">{{item.is}}</li>
         </template>
       </ul>
     </nav>
@@ -49,6 +50,8 @@ var hydrolysis = require('hydrolysis');
   Polymer({
 
     is: 'iron-doc-viewer',
+
+    enableCustomStyleProperties: true,
 
     properties: {
 
