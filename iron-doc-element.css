@@ -113,3 +113,7 @@ iron-doc-property[private] {
 :host(.show-private) iron-doc-property[private] {
   display: block;
 }
+
+iron-doc-property[configuration] {
+  display: none !important; /* Never. */
+}

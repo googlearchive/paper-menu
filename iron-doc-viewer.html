@@ -70,6 +70,15 @@ var hydrolysis = require('hydrolysis');
       },
 
       /**
+       * Whether _all_ dependencies should be loaded and documented.
+       *
+       * Turning this on will probably slow down the load process dramatically.
+       */
+      transitive: {
+        type: Boolean,
+      },
+
+      /**
        * The root URL to evaluate imports under. Any imports that are referenced
        * outside of this root will be _ignored_.
        *
@@ -110,103 +119,15 @@ var hydrolysis = require('hydrolysis');
 
       var baseUri = this.ownerDocument.baseURI;
       var srcUrl  = new URL(this.src, baseUri).toString();
-      var rootUrl;
-      if (this.rootUrl) {
-        rootUrl = new URL(this.rootUrl).toString();
-      } else {
-        rootUrl = new URL('.', srcUrl).toString();
-      }
-
-      this._loader = new hydrolysis.Loader();
-      this._loader.addResolver(new hydrolysis.XHRResolver());
-      // The *last* resolver is the most specific.
-      this._loader.addResolver(new hydrolysis.NoopResolver({
-        test: function(uri) {
-          var fullUrl = new URL(uri, baseUri).toString();
-          return fullUrl.indexOf(rootUrl) !== 0;
-        },
-      }));
-
-      this._analyzer = new hydrolysis.Analyzer(false, this._loader);
-      this._analyzer.metadataTree(srcUrl.toString())
-          .then(this._processRoot.bind(this))
-          .catch(function(error) {
-            console.error('Failed to load source at:', this.src, error);
-          }.bind(this));
-    },
-
-    /**
-     * Extracts elements from a materialized Hydrolysis import tree.
-     *
-     * @param {!hydrolysis.ImportDescriptor} root
-     */
-    _processRoot: function(root) {
-      this._root = root;
-
-      var elements = this._findElements(root);
-      elements.forEach(hydrolysis.docs.annotateElement);
-
-      var features = this._findFeatures(root);
-      if (features.length > 0) {
-        features.forEach(hydrolysis.docs.annotateFeature);
-        elements.unshift(this._featureElement(features));
-      }
-
-      this._elements      = elements;
-      this._activeElement = this._elements[0];
-
-      this.classList.add('loaded');
-    },
-
-    /**
-     * Recursively finds all elements declared by `node` and its dependencies.
-     *
-     * @param {!hydrolysis.ImportDescriptor} node
-     * @return {!Array<hydrolysis.ElementDescriptor>}
-     */
-    _findElements: function(node) {
-      return (node.imports || []).reduce(function(elements, childNode) {
-        return elements.concat(this._findElements(childNode));
-      }.bind(this), node.elements || []);
-    },
-
-    /**
-     * Recursively finds all features declared by `node` and its dependencies.
-     *
-     * @param {!hydrolysis.ImportDescriptor} node
-     * @return {!Array<hydrolysis.FeatureDescriptor>}
-     */
-    _findFeatures: function(node) {
-      return (node.imports || []).reduce(function(features, childNode) {
-        return features.concat(this._findFeatures(childNode));
-      }.bind(this), node.features || []);
-    },
-
-    /**
-     * Builds a fake Hydrolysis element from a collection of Polymer features.
-     *
-     * @param {!Array<hydrolysis.FeatureDescriptor>}
-     * @return {!hydrolysis.ElementDescriptor}
-     */
-    _featureElement: function(features) {
-      if (features.length === 0) return [];
-
-      var properties = features.reduce(function(result, feature) {
-        return result.concat(feature.properties);
-      }, []);
-
-      return {
-        is:         'Polymer.Base',
-        abstract:   true,
-        properties: properties,
-        desc: '`Polymer.Base` acts as a base prototype for all Polymer ' +
-              'elements. It is composed via various calls to ' +
-              '`Polymer.Base.addFeature()`.\n' +
-              '\n' +
-              'The properties reflected here are the combined view of all ' +
-              'features found in this library. There may be more properties ' +
-              'added via other libraries, as well.',
-      };
+      var filter  = this.transitive ? function() { return false; } : null;
+      hydrolysis.Analyzer.analyze(srcUrl, {filter: filter}).then(function(analyzer) {
+        this._elements      = analyzer.elements;
+        this._activeElement = this._elements[0];
+        this.classList.add('loaded');
+      }.bind(this))
+      .catch(function(error) {
+        console.error('Failed to load source at:', this.src, error);
+      }.bind(this));
     },
 
     /**

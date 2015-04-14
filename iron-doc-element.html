@@ -45,10 +45,10 @@ property.
 
   <template>
 
-    <header>{{_model.is}}</header>
+    <header>{{descriptor.is}}</header>
 
     <section id="summary">
-      <marked-element markdown="{{_model.summary}}"></marked-element>
+      <marked-element markdown="{{descriptor.desc}}"></marked-element>
     </section>
 
     <nav id="api">
@@ -59,14 +59,14 @@ property.
 
     <section id="properties">
       <header>Properties</header>
-      <template is="x-repeat" items="{{_model.properties}}">
+      <template is="x-repeat" items="{{_properties}}">
         <iron-doc-property descriptor="{{item}}"></iron-doc-property>
       </template>
     </section>
 
     <section id="methods">
       <header>Methods</header>
-      <template is="x-repeat" items="{{_model.methods}}">
+      <template is="x-repeat" items="{{_methods}}">
         <iron-doc-property descriptor="{{item}}"></iron-doc-property>
       </template>
     </section>
@@ -77,24 +77,6 @@ property.
 
 <script>
 (function() {
-
-  // TODO(nevir): We should move most of this knowledge into Hydrolysis!
-  var ELEMENT_CONFIGURATION = [
-    'attached',
-    'attributeChanged',
-    'configure',
-    'constructor',
-    'created',
-    'detached',
-    'extends',
-    'hostAttributes',
-    'is',
-    'listeners',
-    'mixins',
-    'observers',
-    'properties',
-    'ready',
-  ];
 
   Polymer({
 
@@ -180,25 +162,16 @@ property.
     _descriptorChanged: function() {
       if (!this.descriptor) return;
 
+      // Split the documented properties between functions and other types.
       var properties = [];
       var methods    = [];
-
       for (var i = 0, property; property = this.descriptor.properties[i]; i++) {
-        if (ELEMENT_CONFIGURATION.indexOf(property.name) !== -1) continue;
         (property.type === 'Function' ? methods : properties).push(property);
       }
+      this._properties = properties;
+      this._methods    = methods;
 
       this.toggleAttribute('abstract', this.descriptor.abstract);
-      this._model = {
-        is:         this.descriptor.is,
-        properties: this._sortProperties(properties),
-        methods:    this._sortProperties(methods),
-        summary:    this.descriptor.desc,
-      };
-    },
-
-    _sortProperties: function(properties) {
-      return properties.sort(function(a, b) { return a.name.localeCompare(b.name); });
     },
 
     _collapsedChanged: function() {
