@@ -7,7 +7,7 @@ The complete set of contributors may be found at http://polymer.github.io/CONTRI
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
-<link rel="import" href="../hydrolysis/hydrolysis.html">
+<link rel="import" href="../hydrolysis/hydrolysis-analyzer.html">
 <link rel="import" href="../paper-styles/x-typography.html">
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../prism-highlighter/prism-highlighter.html">
@@ -29,13 +29,14 @@ you want to document:
 
   <template>
     <prism-highlighter></prism-highlighter>
+    <hydrolysis-analyzer src="[[src]]" transitive="[[transitive]]" analyzer="{{_analyzer}}" loading="{{_loading}}"></hydrolysis-analyzer>
 
-    <iron-doc-element id="page" descriptor="{{_activeElement}}"></iron-doc-element>
+    <iron-doc-element id="page" descriptor="[[_activeElement]]"></iron-doc-element>
     <nav>
       <ul on-tap="_onTapNavItem">
         <!-- Polymer features are crazy special cased as `Polymer.Base`. -->
-        <template is="x-repeat" items="{{_elements}}">
-          <li abstract$="{{item.abstract}}">{{item.is}}</li>
+        <template is="x-repeat" items="[[_elements]]">
+          <li abstract$="[[item.abstract]]">[[item.is]]</li>
         </template>
       </ul>
     </nav>
@@ -65,32 +66,14 @@ var hydrolysis = require('hydrolysis');
        * If you change this value after the `<iron-doc-viewer>` has been
        * instantiated, you must call `load()`.
        */
-      src: {
-        type: String,
-      },
+      src: String,
 
       /**
        * Whether _all_ dependencies should be loaded and documented.
        *
        * Turning this on will probably slow down the load process dramatically.
        */
-      transitive: {
-        type: Boolean,
-      },
-
-      /**
-       * The root URL to evaluate imports under. Any imports that are referenced
-       * outside of this root will be _ignored_.
-       *
-       * If you do not specify a root, this defaults to the directory that
-       * contains `src`.
-       *
-       * If you change this value after the `<iron-doc-viewer>` has been
-       * instantiated, you must call `load()`.
-       */
-      rootUrl: {
-        type: String,
-      },
+      transitive: Boolean,
 
       /**
        * The currently displayed element.
@@ -99,35 +82,35 @@ var hydrolysis = require('hydrolysis');
        */
       _activeElement: Object,
 
+      /**
+       * The hydrolysis analyzer.
+       *
+       * @type {!hydrolysis.Analyzer}
+       */
+      _analyzer: {
+        observer: '_analyzerChanged',
+      },
+
+      /** Whether the analyzer is loading source. */
+      _loading: {
+        type:     Boolean,
+        observer: '_loadingChanged',
+      },
+
     },
 
-    ready: function() {
-      this.load();
+    _loadingChanged: function() {
+      this.toggleClass('loaded', !this._loading);
     },
 
-    /**
-     * Begins loading the imports referenced by `src`.
-     *
-     * If you make changes to `src` or `rootUrl`, you must call this to view
-     * their results.
-     */
-    load: function() {
-      if (!this.src) {
-        console.error('Expected src to be set for', this);
-        return;
-      }
-
-      var baseUri = this.ownerDocument.baseURI;
-      var srcUrl  = new URL(this.src, baseUri).toString();
-      var filter  = this.transitive ? function() { return false; } : null;
-      hydrolysis.Analyzer.analyze(srcUrl, {filter: filter}).then(function(analyzer) {
-        this._elements      = analyzer.elements;
+    _analyzerChanged: function() {
+      if (this._analyzer) {
+        this._elements      = this._analyzer.elements;
         this._activeElement = this._elements[0];
-        this.classList.add('loaded');
-      }.bind(this))
-      .catch(function(error) {
-        console.error('Failed to load source at:', this.src, error);
-      }.bind(this));
+      } else {
+        this._elements      = [];
+        this._activeElement = null;
+      }
     },
 
     /**
