@@ -22,7 +22,7 @@ Give it a hydrolysis `PropertyDescriptor` (via `descriptor`), and watch it go!
 
   <template>
     <div id="transitionMask">
-      <div id="name">{{descriptor.name}}</div>
+      <div id="name">{{descriptor.name}}<span class="params">(<span>{{_paramText}}</span>)</span></div>
       <div id="details">
         <div id="meta">
           <span id="type">{{descriptor.type}}</span>
@@ -99,6 +99,8 @@ Give it a hydrolysis `PropertyDescriptor` (via `descriptor`), and watch it go!
     _descriptorChanged: function() {
       this.toggleAttribute('private',       this.descriptor.private);
       this.toggleAttribute('configuration', this.descriptor.configuration);
+      this.toggleAttribute('function',      this.descriptor.type.match(/^function/i));
+      this._paramText = (this.descriptor.params || []).join(', ');
     },
 
     /**

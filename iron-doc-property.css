@@ -17,7 +17,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 #transitionMask {
   position: relative;
   overflow: hidden;
-  display: flex;
+  padding-left: 160px;
 }
 
 [hidden] {
@@ -29,6 +29,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   width: 160px;
   overflow: hidden;
   text-overflow: ellipsis;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+:host([function]) #name {
+  position: static;
+  margin-left: -160px;
+  width: 100%;
+}
+
+#name .params {
+  mixin(--paper-font-code1);
+}
+
+:host:not([function]) #name .params {
+  display: none;
+}
+
+:host([function]) #type {
+  display: none;
 }
 
 #details {
@@ -83,7 +104,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   transition: opacity ease-in-out 150ms;
 }
 #desc {
-  transition: transform ease-in-out 150ms;
+  transition: transform ease-in-out 150ms, opacity  ease-in-out 150ms;
 }
 
 /* Collapsed State */
@@ -97,4 +118,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 }
 :host([_collapsed]) #desc {
   transform: translateY(-34px);
+}
+:host([_collapsed][function]) #desc {
+  opacity: 0;
 }
