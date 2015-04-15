@@ -9,12 +9,38 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 :host {
   display: none;
+  height: 100vh;
+  box-sizing: border-box;
+  padding: 16px;
 }
 :host(.loaded) {
   display: flex;
 }
-iron-doc-element {
+#content {
+  mixin(--paper-font-body1);
   flex-basis: 100%;
+  width: 48em;
+  max-width: 48em;
+  height: 100%;
+}
+#content > * {
+  display: none;
+  min-height: 100%;
+}
+#content[activeContent="element"] > iron-doc-element,
+#content[activeContent="demo"] > #demo {
+  display: block;
+}
+
+iron-doc-element, iframe {
+  width: 100%;
+}
+iframe {
+  border: 0;
+  height: 100%;
+}
+iron-doc-element[hidden] {
+  display: none;
 }
 nav {
   padding: 16px 32px;
@@ -22,16 +48,24 @@ nav {
 nav ul {
   list-style: none;
   padding: 0;
+  margin: 0;
+}
+nav .extra {
+  /* border-top: 1px solid var(--google-grey-300); */
+  border-top: 1px solid #e0e0e0;
 }
 nav li {
-  mixin(--paper-font-code2);
+  ]mixin(--paper-font-body2);
   padding: 8px;
   margin: 0 -8px;
   cursor: pointer;
 }
-nav li:not([abstract]):before {
+nav .elements li {
+  mixin(--paper-font-code2);
+}
+nav .elements li:not([abstract]):before {
   content: '<';
 }
-nav li:not([abstract]):after {
+nav .elements li:not([abstract]):after {
   content: '>';
 }
