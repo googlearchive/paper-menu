@@ -17,13 +17,11 @@
   },
   "license": "MIT",
   "homepage": "https://github.com/PolymerElements/paper-menu",
-  "ignore": [
-  ],
+  "ignore": [],
   "dependencies": {
-    "polymer": "Polymer/polymer#0.8-preview",
+    "polymer": "Polymer/polymer#v0.8.0-rc.4",
     "core-selector": "Polymer/core-selector#0.8-preview",
-    "layout": "Polymer/layout",
-    "paper-styles": "PolymerLabs/paper-styles"
+    "paper-styles": "PolymerElements/paper-styles#^0.8.0"
   },
   "devDependencies": {
     "webcomponentsjs": "Polymer/webcomponentsjs",
@@ -31,5 +29,8 @@
     "paper-item": "PolymerElements/paper-item#master",
     "test-fixture": "Polymer/test-fixture#master",
     "web-component-tester": "Polymer/web-component-tester#^2.2.0"
+  },
+  "resolutions": {
+    "polymer": "v0.8.0-rc.4"
   }
 }
