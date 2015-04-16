@@ -20,8 +20,8 @@
   ],
   "dependencies": {
     "hydrolysis": "PolymerLabs/hydrolysis#^1.1.2",
-    "marked-element": "PolymerLabs/marked-element#^0.8.0",
-    "paper-styles": "PolymerLabs/paper-styles#^0.8.0",
+    "marked-element": "PolymerElements/marked-element#^0.8.0",
+    "paper-styles": "PolymerElements/paper-styles#^0.8.0",
     "polymer": "Polymer/polymer#v0.8.0-rc.4",
     "prism-highlighter": "PolymerElements/prism-highlighter#^0.8.0"
   },
