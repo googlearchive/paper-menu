@@ -29,7 +29,7 @@ you want to document:
 
   <template>
     <prism-highlighter></prism-highlighter>
-    <hydrolysis-analyzer src="[[src]]" transitive="[[transitive]]" analyzer="{{_analyzer}}" loading="{{_loading}}"></hydrolysis-analyzer>
+    <hydrolysis-analyzer src="[[src]]" transitive="[[transitive]]" clean analyzer="{{_analyzer}}" loading="{{_loading}}"></hydrolysis-analyzer>
 
     <iron-doc-element id="page" descriptor="[[_activeElement]]"></iron-doc-element>
     <nav>
@@ -75,6 +75,12 @@ var hydrolysis = require('hydrolysis');
        */
       transitive: Boolean,
 
+      /** The Hydrolysis element descripotrs being rendered. */
+      _elements: {
+        type:     Array,
+        observer: '_elementsChanged',
+      },
+
       /**
        * The currently displayed element.
        *
@@ -99,18 +105,45 @@ var hydrolysis = require('hydrolysis');
 
     },
 
+    ready: function() {
+      var elements = this._loadJson();
+      if (elements.length === 0) return;
+      this._elements = elements;
+      this._loading  = false;
+    },
+
+    /**
+     * Loads a hydrolysis element descriptor (as JSON) from the text content of
+     * this element, if present.
+     *
+     * @return {hydrolysis.ElementDescriptor} The parsed descriptor, or `null`.
+     */
+    _loadJson: function() {
+      var textContent = '';
+      Array.prototype.forEach.call(Polymer.dom(this).childNodes, function(node) {
+        textContent = textContent + node.textContent;
+      });
+      textContent = textContent.trim();
+      if (textContent === '') return null;
+
+      try {
+        return JSON.parse(textContent);
+      } catch(error) {
+        console.error('Failure when parsing JSON:', textContent, error);
+        throw error;
+      }
+    },
+
+    _elementsChanged: function() {
+      this._activeElement = (this._elements || [])[0];
+    },
+
     _loadingChanged: function() {
       this.toggleClass('loaded', !this._loading);
     },
 
     _analyzerChanged: function() {
-      if (this._analyzer) {
-        this._elements      = this._analyzer.elements;
-        this._activeElement = this._elements[0];
-      } else {
-        this._elements      = [];
-        this._activeElement = null;
-      }
+      this._elements = this._analyzer ? this._analyzer.elements : [];
     },
 
     /**
@@ -126,6 +159,22 @@ var hydrolysis = require('hydrolysis');
           return;
         }
       }
+    },
+
+    /**
+     * Renders this element into static HTML for offline use.
+     *
+     * This is mostly useful for debugging and one-off documentation generation.
+     * If you want to integrate doc generation into your build process, you
+     * probably want to be calling `hydrolysis.Analyzer.analyze()` directly.
+     *
+     * @return {string} The HTML for this element with all state baked in.
+     */
+    marshal: function() {
+      var jsonText = JSON.stringify(this._elements || [], null, '  ');
+      return '<' + this.is + '>\n' +
+             jsonText.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '\n' +
+             '</' + this.is + '>';
     },
 
   });
