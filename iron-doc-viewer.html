@@ -107,7 +107,7 @@ var hydrolysis = require('hydrolysis');
 
     ready: function() {
       var elements = this._loadJson();
-      if (elements.length === 0) return;
+      if (!elements) return;
       this._elements = elements;
       this._loading  = false;
     },
