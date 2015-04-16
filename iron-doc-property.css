@@ -14,6 +14,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   padding: 16px;
 }
 
+.type:before {
+  content: '\007b'; /* https://github.com/Polymer/polymer/issues/1291 */
+}
+.type:after {
+  content: '\007d'; /* https://github.com/Polymer/polymer/issues/1291 */
+}
+
 #transitionMask {
   position: relative;
   overflow: hidden;
@@ -24,8 +31,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   display: none;
 }
 
-#name {
-  mixin(--paper-font-code2);
+#signature {
+  mixin(--paper-font-code1);
   width: 160px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -34,17 +41,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   top: 0;
 }
 
-:host([function]) #name {
+#signature .name {
+  mixin(--paper-font-code2);
+}
+
+:host([function]) #signature {
   position: static;
   margin-left: -160px;
   width: 100%;
 }
 
-#name .params {
-  mixin(--paper-font-code1);
-}
-
-:host:not([function]) #name .params {
+:host:not([function]) #signature .params {
   display: none;
 }
 
@@ -66,12 +73,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   mixin(--paper-font-code1);
   width: 100px;
 }
-#type:before {
-  content: '\007b'; /* https://github.com/Polymer/polymer/issues/1291 */
-}
-#type:after {
-  content: '\007d'; /* https://github.com/Polymer/polymer/issues/1291 */
-}
 
 #default {
   flex: 1;
@@ -79,6 +80,36 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 }
 #default .value {
   mixin(--paper-font-code1);
+}
+
+/* Function Parameters */
+
+#params {
+  background: rgba(0,0,0,0.05);
+  list-style: none;
+  margin: 0 -8px;
+  padding: 0 8px;
+}
+
+#params .type {
+  mixin(--paper-font-code1);
+}
+
+#params li {
+  padding: 4px 0;
+}
+#params li:first-child {
+  padding-top: 8px;
+}
+#params li:last-child {
+  padding-bottom: 8px;
+}
+
+#params marked-element {
+  display: inline-block;
+}
+#params marked-element::shadow #content p {
+  margin: 0;
 }
 
 /* Description */

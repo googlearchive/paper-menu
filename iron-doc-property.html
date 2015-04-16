@@ -22,12 +22,28 @@ Give it a hydrolysis `PropertyDescriptor` (via `descriptor`), and watch it go!
 
   <template>
     <div id="transitionMask">
-      <div id="name">{{descriptor.name}}<span class="params">(<span>{{_paramText}}</span>)</span></div>
+      <div id="signature">
+        <span class="name">{{descriptor.name}}</span><span class="params">(<span>{{_paramText}}</span>)</span>
+        <span class="return" hidden$="{{!descriptor.return}}">➙ <span class="type">{{descriptor.return.type}}</span></span>
+      </div>
       <div id="details">
         <div id="meta">
-          <span id="type">{{descriptor.type}}</span>
+          <span id="type" class="type">{{descriptor.type}}</span>
           <span id="default" hidden$="{{!descriptor.default}}">default: <span class="value">{{descriptor.default}}</span></span>
         </div>
+        <ol id="params" hidden$="{{!descriptor.params}}">
+          <template is="x-repeat" items="{{descriptor.params}}">
+            <li hidden$="{{!item.type}}">
+              <span class="name">{{item.name}}</span>
+              <span class="type">{{item.type}}</span>
+              <marked-element markdown="{{item.desc}}"></marked-element>
+            </li>
+          </template>
+          <li class="return" hidden$="{{!descriptor.return}}">Returns
+            <span class="type">{{descriptor.return.type}}</span>
+            <marked-element markdown="{{descriptor.return.desc}}"></marked-element>
+          </li>
+        </ol>
         <marked-element id="desc" markdown="{{descriptor.desc}}" hidden$="{{!descriptor.desc}}"></marked-element>
       </div>
     </div>
@@ -99,8 +115,10 @@ Give it a hydrolysis `PropertyDescriptor` (via `descriptor`), and watch it go!
     _descriptorChanged: function() {
       this.toggleAttribute('private',       this.descriptor.private);
       this.toggleAttribute('configuration', this.descriptor.configuration);
-      this.toggleAttribute('function',      this.descriptor.type.match(/^function/i));
-      this._paramText = (this.descriptor.params || []).join(', ');
+      this.toggleAttribute('function',      this.descriptor.function);
+      this._paramText = (this.descriptor.params || []).map(function(param) {
+        return param.name;
+      }).join(', ');
     },
 
     /**
