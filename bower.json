@@ -1,15 +1,13 @@
 {
   "name": "paper-menu",
   "version": "0.8.0",
-  "authors": [
-    "Yvonne Yip <ykyyip@google.com>"
-  ],
+  "authors": "The Polymer Authors",
   "keywords": [
     "web-components",
     "web-component",
     "polymer"
   ],
-  "main": "index.html",
+  "main": "paper-menu.html",
   "private": true,
   "repository": {
     "type": "git",
@@ -20,15 +18,15 @@
   "ignore": [],
   "dependencies": {
     "polymer": "Polymer/polymer#v0.8.0-rc.4",
-    "core-selector": "Polymer/core-selector#0.8-preview",
+    "iron-selector": "PolymerElements/iron-selector#^0.8.0",
     "paper-styles": "PolymerElements/paper-styles#^0.8.0"
   },
   "devDependencies": {
-    "webcomponentsjs": "Polymer/webcomponentsjs",
-    "iron-doc-viewer": "PolymerElements/iron-doc-viewer#master",
+    "iron-doc-viewer": "PolymerElements/iron-doc-viewer#^0.8.0",
     "paper-item": "PolymerElements/paper-item#master",
-    "test-fixture": "Polymer/test-fixture#master",
-    "web-component-tester": "Polymer/web-component-tester#^2.2.0"
+    "test-fixture": "PolymerElements/test-fixture#^0.8.0",
+    "web-component-tester": "Polymer/web-component-tester#^2.2.0",
+    "webcomponentsjs": "Polymer/webcomponentsjs#^0.6.0"
   },
   "resolutions": {
     "polymer": "v0.8.0-rc.4"
