@@ -23,12 +23,9 @@
   },
   "devDependencies": {
     "iron-doc-viewer": "PolymerElements/iron-doc-viewer#^0.8.0",
-    "paper-item": "PolymerElements/paper-item#master",
+    "paper-item": "PolymerElements/paper-item#^0.8.0",
     "test-fixture": "PolymerElements/test-fixture#^0.8.0",
     "web-component-tester": "Polymer/web-component-tester#^2.2.0",
     "webcomponentsjs": "Polymer/webcomponentsjs#^0.6.0"
-  },
-  "resolutions": {
-    "polymer": "v0.8.0-rc.4"
   }
 }
