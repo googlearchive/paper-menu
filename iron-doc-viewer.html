@@ -113,10 +113,10 @@ var hydrolysis = require('hydrolysis');
     },
 
     /**
-     * Loads a hydrolysis element descriptor (as JSON) from the text content of
-     * this element, if present.
+     * Loads an array of hydrolysis element descriptors (as JSON) from the text
+     * content of this element, if present.
      *
-     * @return {hydrolysis.ElementDescriptor} The parsed descriptor, or `null`.
+     * @return {Array<hydrolysis.ElementDescriptor>} The descriptors, or `[]`.
      */
     _loadJson: function() {
       var textContent = '';
@@ -124,10 +124,12 @@ var hydrolysis = require('hydrolysis');
         textContent = textContent + node.textContent;
       });
       textContent = textContent.trim();
-      if (textContent === '') return null;
+      if (textContent === '') return [];
 
       try {
-        return JSON.parse(textContent);
+        var json = JSON.parse(textContent);
+        if (!Array.isArray(json)) return [];
+        return json;
       } catch(error) {
         console.error('Failure when parsing JSON:', textContent, error);
         throw error;

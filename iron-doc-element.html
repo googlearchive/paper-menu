@@ -148,8 +148,13 @@ property.
      * @return {hydrolysis.ElementDescriptor} The parsed descriptor, or `null`.
      */
     _loadJson: function() {
-      var textContent = this.textContent.trim();
+      var textContent = '';
+      Array.prototype.forEach.call(Polymer.dom(this).childNodes, function(node) {
+        textContent = textContent + node.textContent;
+      });
+      textContent = textContent.trim();
       if (textContent === '') return null;
+
       try {
         return JSON.parse(textContent);
       } catch(error) {
