@@ -122,11 +122,11 @@ property.
 
     },
 
-    configure: function(properties) {
+    ready: function() {
       var jsonDescriptor = this._loadJson();
       // Note that this is only an error during element creation. You are free
       // to stomp over the descriptor after it is ready.
-      if (jsonDescriptor && properties.descriptor) {
+      if (jsonDescriptor && this.descriptor) {
         console.error(
             this,
             'received both a bound descriptor:', this.descriptor,
@@ -136,9 +136,9 @@ property.
             '<iron-doc-element> accepts either a bound or JSON descriptor; not both');
       }
 
-      return {
-        descriptor: properties.descriptor || jsonDescriptor,
-      };
+      if (jsonDescriptor) {
+        this.descriptor = jsonDescriptor;
+      }
     },
 
     /**
