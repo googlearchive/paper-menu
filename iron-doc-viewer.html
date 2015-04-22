@@ -66,7 +66,17 @@ you want to document:
 
 <script>
 (function() {
-var hydrolysis = require('hydrolysis');
+  var hydrolysis = require('hydrolysis');
+
+  /**
+   * @param {string} url
+   * @return {string} `url` stripped of a file name, if one is present. This
+   *     considers URLs like "example.com/foo" to already be a base (no `.` is)
+   *     present in the final path part).
+   */
+  function _baseUrl(url) {
+    return url.match(/^(.*?)\/?([^\/]+\.[^\/]+)?$/)[1] + '/';
+  }
 
   Polymer({
 
@@ -199,15 +209,26 @@ var hydrolysis = require('hydrolysis');
     },
 
     _srcChanged: function() {
-      // Note that we're treating URLs like `/foo` and `/foo/` as directories!
-      var baseUrl = this.ownerDocument.baseURI.match(/^(.*?)\/?([^\/]+\.[^\/]+)?$/)[1] + '/';
-      var src     = this.src;
-      if (!src) {
-        src = baseUrl.match(/([^\/]*)\/$/)[1] + ".html"
+      var docUrl = this.ownerDocument.baseURI;
+      var srcUrl;
+      if (this.src) {
+        srcUrl = new URL(this.src, docUrl).toString();
+      } else {
+        var base = _baseUrl(docUrl);
+        srcUrl = new URL(base.match(/([^\/]*)\/$/)[1] + ".html", base).toString();
       }
 
-      this._baseUrl = baseUrl;
-      this._srcUrl  = new URL(src, baseUrl).toString();
+      // Rewrite gh-pages URLs to https://rawgit.com/
+      var match = srcUrl.match(/([^\/\.]+)\.github\.io\/([^\/]+)\/?([^\/]*)$/);
+      if (match) {
+        srcUrl = "https://cdn.rawgit.com/" + match[1] + "/" + match[2] + "/master/" + match[3];
+        // We'd love to support demos, but 99% of the time they require external
+        // dependencies ...so nope.
+        this.noDemo = true;
+      }
+
+      this._baseUrl = _baseUrl(srcUrl);
+      this._srcUrl  = srcUrl;
       this.$.analyzer.analyze();
       this.async(this._updateDemoUrl);
     },
