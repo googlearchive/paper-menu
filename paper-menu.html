@@ -9,7 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../iron-selector/iron-selectable.html">
+<link rel="import" href="../iron-selector/iron-multi-selectable.html">
 <link rel="import" href="../paper-styles/paper-styles.html">
 
 <!--
@@ -76,8 +76,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     enableCustomStyleProperties: true,
 
-    mixins: [
-      Polymer.Core.Selectable
+    behaviors: [
+      Polymer.IronMultiSelectableBehavior
     ],
 
     properties: {
@@ -104,85 +104,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
        */
       attrForItemTitle: {
         type: String
-      },
-
-      /***********************************************************************/
-      /* Polymer.Core.Selectable                                             */
-      /***********************************************************************/
-
-      /**
-       * If you want to use the attribute value of an element for `selected` instead of the index,
-       * set this to the name of the attribute.
-       *
-       * @attribute attrForSelected
-       * @type String
-       */
-      attrForSelected: {
-        type: String
-      },
-
-      /**
-       * If true, multiple selections are allowed.
-       *
-       * @attribute multi
-       * @type Boolean
-       * @default false
-       */
-      multi: {
-        observer: 'multiChanged',
-        type: Boolean,
-        value: false
-      },
-
-      /**
-       * Gets or sets the selected element. The default is to use the index of the item.  In
-       * multi-selection this should be an array of values.
-       *
-       * @attribute selected
-       * @type String|Array
-       */
-      selected: {
-        notify: true,
-        observer: 'selectedChanged',
-        type: String
-      },
-
-      /**
-       * Returns the currently selected item. In multi-selection this returns an array of
-       * selected items.
-       *
-       * @attribute selectedItem
-       * @type Object|Array
-       */
-      selectedItem: {
-        notify: true,
-        observer: 'selectedItemChanged',
-        readOnly: true,
-        type: Object
-      },
-
-      /**
-       * The event that would be fired from the item to indicate it is being selected.  Set this
-       * to empty string or null if you don't want to listen for any events.
-       *
-       * @attribute activateEvent
-       * @type String
-       * @default 'click'
-       */
-      activateEvent: {
-        observer: 'activateEventChanged',
-        type: String,
-        value: 'click'
-      },
-
-      /**
-       * If this is set, only items with local name that matches the `selectable` are selectable.
-       *
-       * @attribute selectable
-       * @type String
-       */
-      selectable: {
-        type: String
       }
 
     },
@@ -194,37 +115,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     listeners: {
       'focus': 'onFocus',
-      'keydown': 'onKeydown'
-    },
-
-    created: function() {
-      this._bindActivateHandler = this.activateHandler.bind(this);
-    },
-
-    attached: function() {
-      this.selectableAttached();
-    },
-
-    detached: function() {
-      this.selectableDetached();
-      this.removeListener(this.activateEvent);
-    },
-
-    addListener: function(eventName) {
-      if (eventName) {
-        this.addEventListener(eventName, this._bindActivateHandler);
-      }
-    },
-
-    removeListener: function(eventName) {
-      if (eventName) {
-        this.removeEventListener(eventName, this._bindActivateHandler);
-      }
-    },
-
-    activateEventChanged: function(eventName, old) {
-      this.removeListener(old);
-      this.addListener(eventName);
+      'keydown': 'onKeydown',
+      'selected-items-changed': '_selectedItemsChanged'
     },
 
     focusedItemChanged: function(focusedItem, old) {
@@ -235,36 +127,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     },
 
-    multiChanged: function(multi) {
-      this.selection.multi = multi;
-      this.selectedChanged(this.selected);
-    },
-
-    selectedChanged: function(selected, old) {
-      this._selectedChanged(selected, old);
-    },
-
-    selectedItemChanged: function(selectedItem) {
-      this._setFocusedItem(Array.isArray(selectedItem) ? selectedItem[0] : selectedItem);
-    },
-
-    activateHandler: function(e) {
-      var t = e.target;
-      var items = this.items;
-      while (t && t != this) {
-        var i = items.indexOf(t);
-        if (i >= 0) {
-          if (t.hasAttribute('disabled')) {
-            return;
-          }
-          var value = this.indexToValue(i);
-          if (!this.fire('iron-activate', {selected: value, item: t}).defaultPrevented) {
-            this.select(value);
-          }
-          return;
-        }
-        t = t.parentNode;
-      }
+    _selectedItemsChanged: function() {
+      this._setFocusedItem(this.selectedItems[0]);
     },
 
     onFocus: function(event) {
@@ -272,8 +136,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       this._setFocusedItem(null);
       // focus the selected item when the menu receives focus, or the first item
       // if no item is selected
-      var selectedItem = this.selectedItem;
-      selectedItem = Array.isArray(selectedItem) ? selectedItem[0] : selectedItem;
+      var selectedItems = this.selectedItems;
+      selectedItem = selectedItems && selectedItems[0];
       if (selectedItem) {
         this._setFocusedItem(selectedItem);
       } else {
@@ -297,7 +161,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.focusedItem.blur();
       } else if (event.keyCode === ENTER) {
         // enter activates the item
-        this.activateHandler(event);
+        this._activateHandler(event);
       } else {
         // all other keys focus the menu item starting with that character
         for (var i = 0, item; item = this.items[i]; i++) {
