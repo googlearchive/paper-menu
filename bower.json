@@ -1,6 +1,6 @@
 {
   "name": "iron-doc-viewer",
-  "version": "0.8.7",
+  "version": "0.8.8",
   "authors": [
     "The Polymer Authors"
   ],
@@ -22,7 +22,7 @@
     "hydrolysis": "PolymerLabs/hydrolysis#^1.1.2",
     "marked-element": "PolymerElements/marked-element#^0.8.0",
     "paper-styles": "PolymerElements/paper-styles#^0.8.3",
-    "polymer": "Polymer/polymer#v0.8.0-rc.6",
+    "polymer": "Polymer/polymer#v0.8.0-rc.7",
     "prism-highlighter": "PolymerElements/prism-highlighter#^0.8.1"
   },
   "devDependencies": {
