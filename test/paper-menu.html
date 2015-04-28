@@ -40,32 +40,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <script>
 
-      suite('menu a11y tests', function() {
-        var menu, selectedMenu;
+      suite('basic', function() {
 
-        setup(function() {
-          menu = fixture('basic');
-        });
-
-        test('menu has role="menu"', function() {
-          assert.equal(menu.getAttribute('role'), 'menu', 'has role="menu"');
-        });
-
-        test('first item gets focus when menu is focused', function(done) {
-          menu.focus();
-          setTimeout(function() {
-            assert.equal(document.activeElement, menu.firstElementChild, 'document.activeElement is first item')
-            done();
-          });
-        });
-
-        test('selected item gets focus when menu is focused', function(done) {
+        test('selected item is styled', function() {
+          var menu = fixture('basic');
           menu.selected = 1;
-          menu.focus();
-          setTimeout(function() {
-            assert.equal(document.activeElement, menu.selectedItem, 'document.activeElement is selected item');
-            done();
-          });
+          assert.notEqual(getComputedStyle(menu.selectedItem, '::after').background, getComputedStyle(menu.selectedItem).background, 'selected item is highlighted');
         });
 
       });
