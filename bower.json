@@ -23,7 +23,7 @@
     "marked-element": "PolymerElements/marked-element#^0.8.0",
     "paper-styles": "PolymerElements/paper-styles#^0.8.3",
     "polymer": "Polymer/polymer#v0.8.0-rc.7",
-    "prism-highlighter": "PolymerElements/prism-highlighter#^0.8.1"
+    "prism-element": "PolymerElements/prism-element#^0.8.4"
   },
   "devDependencies": {
     "test-fixture": "PolymerElements/test-fixture#^0.8.0",
