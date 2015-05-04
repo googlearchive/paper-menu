@@ -50,6 +50,7 @@ with the same name as directory it is being served from.
     <hydrolysis-analyzer id="analyzer" src="[[_srcUrl]]" transitive="[[transitive]]" clean analyzer="{{_analyzer}}" loading="{{_loading}}"></hydrolysis-analyzer>
 
     <section id="content" activeContent$="{{_activeContentType}}">
+      <header>[[_activeElement.is]]</header>
       <iron-doc-element id="page" descriptor="[[_activeElement]]"></iron-doc-element>
       <iframe id="demo" src="{{_demoUrl}}"></iframe>
     </section>

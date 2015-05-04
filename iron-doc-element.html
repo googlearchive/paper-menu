@@ -8,7 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 <link rel="import" href="../marked-element/marked-element.html">
-<link rel="import" href="../paper-styles/typography.html">
+<link rel="import" href="../paper-styles/paper-styles.html">
 <link rel="import" href="../polymer/polymer.html">
 
 <link rel="import" href="iron-doc-property.html">
@@ -44,10 +44,7 @@ property.
   <link rel="import" type="css" href="iron-doc-element.css">
 
   <template>
-
-    <header>{{descriptor.is}}</header>
-
-    <section id="summary">
+    <section id="summary" class="card">
       <marked-element markdown="{{descriptor.desc}}"></marked-element>
     </section>
 
@@ -57,14 +54,14 @@ property.
       <a id="toggleCollapsed" on-tap="_toggleCollapsed">{{_collapseToggleLabel}}</a>
     </nav>
 
-    <section id="properties">
+    <section id="properties" class="card">
       <header>Properties</header>
       <template is="x-repeat" items="{{_properties}}">
         <iron-doc-property descriptor="{{item}}"></iron-doc-property>
       </template>
     </section>
 
-    <section id="methods">
+    <section id="methods" class="card">
       <header>Methods</header>
       <template is="x-repeat" items="{{_methods}}">
         <iron-doc-property descriptor="{{item}}"></iron-doc-property>

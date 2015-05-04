@@ -23,13 +23,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   max-width: 48em;
   height: 100%;
 }
-#content > * {
-  display: none;
-  min-height: 100%;
-}
-#content[activeContent="element"] > iron-doc-element,
-#content[activeContent="demo"] > #demo {
-  display: block;
+#content > header {
+  mixin(--paper-font-display1);
+  margin-bottom: 20px;
 }
 
 iron-doc-element, iframe {
@@ -62,10 +58,4 @@ nav li {
 }
 nav .elements li {
   mixin(--paper-font-code2);
-}
-nav .elements li:not([abstract]):before {
-  content: '<';
-}
-nav .elements li:not([abstract]):after {
-  content: '>';
 }

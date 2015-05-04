@@ -14,22 +14,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   color: #212121;
   max-width: 48em;
 }
-header {
-  mixin(--paper-font-headline);
-  color: #e91e63;
-}
+
 :host > header {
   mixin(--paper-font-display1);
-}
-:host:not([abstract]) > header:before {
-  content: '<';
-}
-:host:not([abstract]) > header:after {
-  content: '>';
-}
-
-#summary marked-element::shadow #content p {
-  padding: 0 16px;
+  margin-bottom: 18px;
 }
 
 #api {
@@ -39,6 +27,7 @@ header {
 #api header {
   flex: 1;
   padding-left: 16px;
+  mixin(--paper-font-subhead);
 }
 #api a {
   mixin(--paper-font-button);
@@ -52,53 +41,42 @@ header {
 
 /* Common Formatting */
 
+#summary {
+  padding: 4px 0;
+}
+
 #summary marked-element::shadow #content pre {
   background-color: #fafafa;
+  border: solid #ebebeb;
+  border-width: 1px 0;
   overflow-x: auto;
-  padding: 12px 16px;
+  padding: 12px 18px;
 }
 
 #summary marked-element::shadow #content code {
   mixin(--paper-font-code1);
 }
 
+#summary marked-element::shadow #content p {
+  padding: 0 18px;
+}
+
 /* Property Sections */
 
-#properties,
-#methods {
-  border: 1px solid;
-  margin: 16px 0;
-}
-#properties > header,
-#methods > header {
-  color: #ffffff;
-  padding: 16px;
+.card {
+  mixin(--shadow-elevation-2dp);
+  background: white;
+  margin-bottom: 20px;
 }
 
-#properties {
-  background-color: rgba(255, 86, 33, 0.2);
-}
-#properties > header {
-  background-color: rgb(255, 86, 33);
-}
-#properties,
-#properties iron-doc-property {
-  border-color: rgb(255, 86, 33);
-}
-
-#methods {
-  background-color: rgba(0, 190, 164, 0.2);
-}
-#methods > header {
-  background-color: rgb(0, 190, 164);
-}
-#methods,
-#methods iron-doc-property {
-  border-color: rgb(0, 190, 164);
+.card > header {
+  mixin(--paper-font-title);
+  padding: 18px 16px;
+  border-bottom: 1px solid #ebebeb;
 }
 
 iron-doc-property {
-  border-bottom: 1px solid;
+  border-bottom: 1px solid #ebebeb;
 }
 iron-doc-property:last-of-type {
   border-bottom-width: 0;
