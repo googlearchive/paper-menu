@@ -14,7 +14,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="iron-doc-property.html">
 
 <!--
-Renders documentation describing an element's API.
+Renders documentation describing an element's API. Also works for behaviors.
 
 `iron-doc-element` renders element descriptions as extracted by
 [Hydrolysis](https://github.com/PolymerLabs/hydrolysis). You can provide them
@@ -57,14 +57,14 @@ property.
       <a id="toggleCollapsed" on-tap="_toggleCollapsed">{{_collapseToggleLabel}}</a>
     </nav>
 
-    <section id="properties">
+    <section id="properties" hidden$="{{!_properties.length}}">
       <header>Properties</header>
       <template is="x-repeat" items="{{_properties}}">
         <iron-doc-property descriptor="{{item}}"></iron-doc-property>
       </template>
     </section>
 
-    <section id="methods">
+    <section id="methods" hidden$="{{!_methods.length}}">
       <header>Methods</header>
       <template is="x-repeat" items="{{_methods}}">
         <iron-doc-property descriptor="{{item}}"></iron-doc-property>
@@ -177,6 +177,7 @@ property.
       this._methods    = methods;
 
       this.toggleAttribute('abstract', this.descriptor.abstract);
+      this.setAttribute('type', this.descriptor.type);
     },
 
     _collapsedChanged: function() {

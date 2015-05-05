@@ -49,20 +49,35 @@ with the same name as directory it is being served from.
     <prism-highlighter></prism-highlighter>
     <hydrolysis-analyzer id="analyzer" src="[[_srcUrl]]" transitive="[[transitive]]" clean analyzer="{{_analyzer}}" loading="{{_loading}}"></hydrolysis-analyzer>
 
-    <section id="content" activeContent$="{{_activeContentType}}">
+    <section id="content" activeContent$="[[_activeContentType]]">
       <iron-doc-element id="page" descriptor="[[_activeElement]]"></iron-doc-element>
-      <iframe id="demo" src="{{_demoUrl}}"></iframe>
+      <iframe id="demo" src="[[_demoUrl]]"></iframe>
     </section>
     <nav>
-      <ul class="elements" on-tap="_onTapNavItem">
-        <!-- Polymer features are crazy special cased as `Polymer.Base`. -->
-        <template is="x-repeat" items="[[_elements]]">
-          <li abstract$="[[item.abstract]]">[[item.is]]</li>
-        </template>
-      </ul>
-      <ul class="extra" hidden$="{{noDemo}}">
-        <li on-tap="_showDemo">Demo</li>
-      </ul>
+      <section hidden$="[[!_elements.length]]">
+        <header>Elements</header>
+        <ul collection="elements" on-tap="_onTapNavItem">
+          <!-- Polymer features are crazy special cased as `Polymer.Base`. -->
+          <template is="x-repeat" items="[[_elements]]">
+            <li abstract$="[[item.abstract]]">[[item.is]]</li>
+          </template>
+        </ul>
+      </section>
+
+      <section hidden$="[[!_behaviors.length]]">
+        <header>Behaviors</header>
+        <ul collection="behaviors" on-tap="_onTapNavItem">
+          <template is="x-repeat" items="[[_behaviors]]">
+            <li>[[item.is]]</li>
+          </template>
+        </ul>
+      </section>
+
+      <section hidden$="[[noDemo]]">
+        <ul>
+          <li class="demo" on-tap="_showDemo">Demo</li>
+        </ul>
+      </section>
     </nav>
   </template>
 
@@ -254,7 +269,8 @@ with the same name as directory it is being served from.
     },
 
     _analyzerChanged: function() {
-      this._elements = this._analyzer ? this._analyzer.elements : [];
+      this._elements  = this._analyzer ? this._analyzer.elements  : [];
+      this._behaviors = this._analyzer ? this._analyzer.behaviors : [];
     },
 
     /**
@@ -263,13 +279,14 @@ with the same name as directory it is being served from.
      * @param {!Event} event
      */
     _onTapNavItem: function(event) {
-      var elementName = event.target.textContent;
-      for (var i = 0, element; element = this._elements[i]; i++) {
-        if (element.is === elementName) {
-          this._activeContentType = 'element';
-          this._activeElement = element;
-          return;
-        }
+      var name = event.target.textContent;
+      var collection = this['_' + event.target.parentNode.getAttribute('collection')];
+
+      for (var i = 0, descriptor; descriptor = collection[i]; i++) {
+        if (descriptor.is !== name) continue;
+        this._activeContentType = 'element';
+        this._activeElement = descriptor;
+        return; // First one wins.
       }
     },
 
