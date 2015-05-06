@@ -59,14 +59,14 @@ property.
 
     <section id="properties" hidden$="{{!_properties.length}}">
       <header>Properties</header>
-      <template is="x-repeat" items="{{_properties}}">
+      <template is="dom-repeat" items="{{_properties}}">
         <iron-doc-property descriptor="{{item}}"></iron-doc-property>
       </template>
     </section>
 
     <section id="methods" hidden$="{{!_methods.length}}">
       <header>Methods</header>
-      <template is="x-repeat" items="{{_methods}}">
+      <template is="dom-repeat" items="{{_methods}}">
         <iron-doc-property descriptor="{{item}}"></iron-doc-property>
       </template>
     </section>
@@ -81,8 +81,6 @@ property.
   Polymer({
 
     is: 'iron-doc-element',
-
-    enableCustomStyleProperties: true,
 
     properties: {
 
