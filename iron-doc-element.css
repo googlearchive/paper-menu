@@ -21,10 +21,10 @@ header {
 :host > header {
   mixin(--paper-font-display1);
 }
-:host:not([abstract]) > header:before {
+:host([type=element]):not([abstract]) > header:before {
   content: '<';
 }
-:host:not([abstract]) > header:after {
+:host([type=element]):not([abstract]) > header:after {
   content: '>';
 }
 
