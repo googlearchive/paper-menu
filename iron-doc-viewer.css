@@ -8,54 +8,90 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 :host {
-  display: none;
-  height: 100vh;
-  box-sizing: border-box;
-  padding: 16px;
-}
-:host(.loaded) {
-  display: flex;
-}
-#content {
   mixin(--paper-font-body1);
-  flex-basis: 100%;
-  width: 48em;
+  display: block;
+  box-sizing: border-box;
+  color: #212121;
   max-width: 48em;
-  height: 100%;
 }
-#content > header {
+
+:host > header {
   mixin(--paper-font-display1);
+  margin-bottom: 18px;
+}
+
+#api {
+  display: flex;
+  align-items: center;
+}
+#api header {
+  flex: 1;
+  padding-left: 16px;
+  mixin(--paper-font-subhead);
+}
+#api a {
+  mixin(--paper-font-button);
+  cursor: pointer;
+  display: block;
+  padding: 4px 16px;
+}
+#api #togglePrivate {
+  opacity: 0.5;
+}
+
+/* Common Formatting */
+
+#summary {
+  padding: 4px 0;
+}
+
+#summary marked-element::shadow #content pre {
+  background-color: #fafafa;
+  border: solid #ebebeb;
+  border-width: 1px 0;
+  overflow-x: auto;
+  padding: 12px 18px;
+}
+
+#summary marked-element::shadow #content code {
+  mixin(--paper-font-code1);
+}
+
+#summary marked-element::shadow #content p {
+  padding: 0 18px;
+}
+
+/* Property Sections */
+
+.card {
+  mixin(--shadow-elevation-2dp);
+  background: white;
   margin-bottom: 20px;
 }
 
-iron-doc-element, iframe {
-  width: 100%;
+.card > header {
+  mixin(--paper-font-title);
+  padding: 18px 16px;
+  border-bottom: 1px solid #ebebeb;
 }
-iframe {
-  border: 0;
-  height: 100%;
+
+iron-doc-property {
+  border-bottom: 1px solid #ebebeb;
 }
-iron-doc-element[hidden] {
+iron-doc-property:last-of-type {
+  border-bottom-width: 0;
+}
+
+/* Private Properties */
+
+iron-doc-property[private] {
   display: none;
 }
-nav {
-  padding: 16px 32px;
+
+:host(.show-private) iron-doc-property[private] {
+  display: block;
 }
-nav ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-nav .extra {
-  /* border-top: 1px solid var(--google-grey-300); */
-  border-top: 1px solid #e0e0e0;
-}
-nav li {
-  ]mixin(--paper-font-body2);
-  padding: 8px;
-  margin: 0 -8px;
-  cursor: pointer;
-}
-nav .elements li {
-  mixin(--paper-font-code2);
+
+iron-doc-property[configuration] {
+  display: none !important; /* Never. */
 }
