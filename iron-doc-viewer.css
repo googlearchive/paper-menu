@@ -17,7 +17,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   display: flex;
 }
 #content {
-  mixin(--paper-font-body1);
+  @apply(--paper-font-body1);
   flex-basis: 100%;
   width: 48em;
   max-width: 48em;
@@ -67,12 +67,14 @@ nav section {
 }
 
 nav li {
+  @apply(--paper-font-body2);
   padding: 8px;
   margin: 0 -8px;
   cursor: pointer;
 }
+
 nav li:not(.demo) {
-  mixin(--paper-font-code2);
+  @apply(--paper-font-code2);
 }
 nav [collection=elements] li:not([abstract]):before {
   content: '<';

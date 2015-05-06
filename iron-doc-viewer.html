@@ -58,7 +58,7 @@ with the same name as directory it is being served from.
         <header>Elements</header>
         <ul collection="elements" on-tap="_onTapNavItem">
           <!-- Polymer features are crazy special cased as `Polymer.Base`. -->
-          <template is="x-repeat" items="[[_elements]]">
+          <template is="dom-repeat" items="[[_elements]]">
             <li abstract$="[[item.abstract]]">[[item.is]]</li>
           </template>
         </ul>
@@ -67,7 +67,7 @@ with the same name as directory it is being served from.
       <section hidden$="[[!_behaviors.length]]">
         <header>Behaviors</header>
         <ul collection="behaviors" on-tap="_onTapNavItem">
-          <template is="x-repeat" items="[[_behaviors]]">
+          <template is="dom-repeat" items="[[_behaviors]]">
             <li>[[item.is]]</li>
           </template>
         </ul>
@@ -100,8 +100,6 @@ with the same name as directory it is being served from.
   Polymer({
 
     is: 'iron-doc-viewer',
-
-    enableCustomStyleProperties: true,
 
     properties: {
 
