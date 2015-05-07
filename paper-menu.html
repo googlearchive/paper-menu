@@ -13,7 +13,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../paper-styles/paper-styles.html">
 
 <!--
-@element paper-menu
+`<paper-menu>` implements an accessible menu control with Material Design styling.
 -->
 
 <dom-module id="paper-menu">
@@ -24,14 +24,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       display: block;
       padding: 8px 0;
 
-      background: var(--primary-background-color);
-      color: var(--primary-text-color);
+      background: var(--paper-menu-background-color, --primary-background-color);
+      color: var(--paper-menu-color, --primary-text-color);
 
       mixin(--paper-menu);
     }
 
     :host > ::content > [disabled] {
-      color: var(--disabled-text-color);
+      color: var(--paper-menu-disabled-color, --disabled-text-color);
     }
 
     :host > ::content > .iron-selected {
@@ -39,7 +39,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
 
     :host > ::content > .iron-selected::after {
-      mixin(--fit);
+      @apply(--layout-fit);
 
       background: currentColor;
       /* FIXME move to paper-styles for next widget */
@@ -72,8 +72,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   Polymer({
 
     is: 'paper-menu',
-
-    enableCustomStyleProperties: true,
 
     behaviors: [
       Polymer.IronMenuBehavior
