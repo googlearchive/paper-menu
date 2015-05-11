@@ -61,12 +61,12 @@ property.
 
     <section id="properties" class="card">
       <header>Properties</header>
-      <template is="dom-repeat" items="{{_properties}}">
+      <template is="dom-repeat" items="{{_properties}}" hidden$="{{!_properties.length}}">
         <iron-doc-property descriptor="{{item}}"></iron-doc-property>
       </template>
     </section>
 
-    <section id="methods" class="card">
+    <section id="methods" class="card" hidden$="{{!_methods.length}}">
       <header>Methods</header>
       <template is="dom-repeat" items="{{_methods}}">
         <iron-doc-property descriptor="{{item}}"></iron-doc-property>
