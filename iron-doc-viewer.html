@@ -50,6 +50,7 @@ property.
     <prism-highlighter></prism-highlighter>
 
     <section id="summary" class="card">
+      <header>Documentation</header>
       <marked-element markdown="{{descriptor.desc}}"></marked-element>
     </section>
 
@@ -59,14 +60,14 @@ property.
       <a id="toggleCollapsed" on-tap="_toggleCollapsed">{{_collapseToggleLabel}}</a>
     </nav>
 
-    <section id="properties" class="card">
+    <section id="properties" class="card" hidden$="{{_noneToShow(_showPrivate,_properties)}}">
       <header>Properties</header>
       <template is="dom-repeat" items="{{_properties}}" hidden$="{{!_properties.length}}">
         <iron-doc-property descriptor="{{item}}"></iron-doc-property>
       </template>
     </section>
 
-    <section id="methods" class="card" hidden$="{{!_methods.length}}">
+    <section id="methods" class="card"  hidden$="{{_noneToShow(_showPrivate,_methods)}}">
       <header>Methods</header>
       <template is="dom-repeat" items="{{_methods}}">
         <iron-doc-property descriptor="{{item}}"></iron-doc-property>
@@ -202,6 +203,12 @@ property.
       this._showPrivate = !this._showPrivate;
     },
 
+    _noneToShow: function(showPrivate, items) {
+      for (var i = 0; i < items.length; i++) {
+        if (showPrivate || !items[i].private) return false;
+      }
+      return true;
+    }
   });
 
 })();

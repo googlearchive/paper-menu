@@ -65,6 +65,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   color: black;
 }
 
+#summary marked-element::shadow #content h1,
+#summary marked-element::shadow #content h2,
+#summary marked-element::shadow #content h3,
+#summary marked-element::shadow #content h4,
+#summary marked-element::shadow #content h5 {
+  padding: 0 18px;
+}
+
 /* Property Sections */
 
 .card {
