@@ -74,6 +74,13 @@ property.
       </template>
     </section>
 
+    <section id="events" class="card" hidden$="{{_noneToShow(_showPrivate,_events)}}">
+      <header>Events</header>
+      <template is="dom-repeat" items="{{_events}}">
+        <argon-doc-property descriptor="{{item}}"></argon-doc-property>
+      </template>
+    </section>
+
   </template>
 
 </dom-module>
@@ -171,11 +178,13 @@ property.
       // Split the documented properties between functions and other types.
       var properties = [];
       var methods    = [];
+
       for (var i = 0, property; property = this.descriptor.properties[i]; i++) {
         (property.type === 'Function' ? methods : properties).push(property);
       }
       this._properties = properties;
       this._methods    = methods;
+      this._events     = this.descriptor.events || [];
 
       this.toggleAttribute('abstract', this.descriptor.abstract);
     },
