@@ -20,6 +20,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   margin-bottom: 18px;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 #api {
   display: flex;
   align-items: center;

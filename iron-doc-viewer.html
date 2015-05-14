@@ -49,7 +49,7 @@ property.
   <template>
     <prism-highlighter></prism-highlighter>
 
-    <section id="summary" class="card">
+    <section id="summary" class="card" hidden$="[[!descriptor.desc]]">
       <header>Documentation</header>
       <marked-element markdown="{{descriptor.desc}}"></marked-element>
     </section>
