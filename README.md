@@ -1,3 +1,3 @@
-# iron-doc-viewer
+# argon-doc-viewer
 
 A suite of elements that render documentation for Polymer components.

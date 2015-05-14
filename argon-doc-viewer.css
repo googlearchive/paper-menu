@@ -91,23 +91,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   border-bottom: 1px solid #ebebeb;
 }
 
-iron-doc-property {
+argon-doc-property {
   border-bottom: 1px solid #ebebeb;
 }
-iron-doc-property:last-of-type {
+argon-doc-property:last-of-type {
   border-bottom-width: 0;
 }
 
 /* Private Properties */
 
-iron-doc-property[private] {
+argon-doc-property[private] {
   display: none;
 }
 
-:host(.show-private) iron-doc-property[private] {
+:host(.show-private) argon-doc-property[private] {
   display: block;
 }
 
-iron-doc-property[configuration] {
+argon-doc-property[configuration] {
   display: none !important; /* Never. */
 }
