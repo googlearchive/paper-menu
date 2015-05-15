@@ -1,5 +1,5 @@
 {
-  "name": "argon-doc-viewer",
+  "name": "iron-doc-viewer",
   "version": "0.9.0",
   "authors": [
     "The Polymer Authors"
@@ -10,9 +10,9 @@
     "web-components",
     "polymer"
   ],
-  "main": "argon-doc-viewer.html",
+  "main": "iron-doc-viewer.html",
   "license": "MIT",
-  "homepage": "https://github.com/PolymerElements/argon-doc-viewer/",
+  "homepage": "https://github.com/PolymerElements/iron-doc-viewer/",
   "ignore": [
     "/.*",
     "/tests/",
@@ -21,12 +21,12 @@
   "dependencies": {
     "marked-element": "PolymerElements/marked-element#^0.9.0",
     "paper-styles": "PolymerElements/paper-styles#^0.9.0",
-    "polymer": "Polymer/polymer#v0.9.0-rc.1",
+    "polymer": "Polymer/polymer#^0.9.0",
     "prism-element": "PolymerElements/prism-element#^0.9.0"
   },
   "devDependencies": {
     "test-fixture": "PolymerElements/test-fixture#^0.9.0",
-    "argon-component-page": "PolymerElements/iron-component-page#^0.9.0",
+    "iron-component-page": "PolymerElements/iron-component-page#^0.9.0",
     "webcomponentsjs": "webcomponents/webcomponentsjs#^0.6.0",
     "web-component-tester": "*"
   }

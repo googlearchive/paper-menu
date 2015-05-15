@@ -12,28 +12,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../prism-element/prism-highlighter.html">
 
-<link rel="import" href="argon-doc-property.html">
+<link rel="import" href="iron-doc-property.html">
 
 <!--
 Renders documentation describing an element's API.
 
-`argon-doc-viewer` renders element and behavior descriptions as extracted by
+`iron-doc-viewer` renders element and behavior descriptions as extracted by
 [Hydrolysis](https://github.com/PolymerLabs/hydrolysis). You can provide them
 either via binding...
 
-    <argon-doc-viewer descriptor="{{elementDescriptor}}"></argon-doc-viewer>
+    <iron-doc-viewer descriptor="{{elementDescriptor}}"></iron-doc-viewer>
 
 ...or by placing the element descriptor in JSON as the text content of an
-`argon-doc-viewer`:
+`iron-doc-viewer`:
 
-    <argon-doc-viewer>
+    <iron-doc-viewer>
       {
         "is": "awesome-sauce",
         "properties": [
           {"name": "isAwesome", "type": "boolean", "desc": "Is it awesome?"},
         ]
       }
-    </argon-doc-viewer>
+    </iron-doc-viewer>
 
 However, be aware that due to current limitations in Polymer 0.8, _changes_ to
 the text content will not be respected, only the initial value will be loaded.
@@ -42,9 +42,9 @@ property.
 
 @demo demo/index.html Basic Demo
 -->
-<dom-module id="argon-doc-viewer">
+<dom-module id="iron-doc-viewer">
 
-  <link rel="import" type="css" href="argon-doc-viewer.css">
+  <link rel="import" type="css" href="iron-doc-viewer.css">
 
   <template>
     <prism-highlighter></prism-highlighter>
@@ -63,21 +63,21 @@ property.
     <section id="properties" class="card" hidden$="{{_noneToShow(_showPrivate,_properties)}}">
       <header>Properties</header>
       <template is="dom-repeat" items="{{_properties}}" hidden$="{{!_properties.length}}">
-        <argon-doc-property descriptor="{{item}}"></argon-doc-property>
+        <iron-doc-property descriptor="{{item}}"></iron-doc-property>
       </template>
     </section>
 
     <section id="methods" class="card"  hidden$="{{_noneToShow(_showPrivate,_methods)}}">
       <header>Methods</header>
       <template is="dom-repeat" items="{{_methods}}">
-        <argon-doc-property descriptor="{{item}}"></argon-doc-property>
+        <iron-doc-property descriptor="{{item}}"></iron-doc-property>
       </template>
     </section>
 
     <section id="events" class="card" hidden$="{{_noneToShow(_showPrivate,_events)}}">
       <header>Events</header>
       <template is="dom-repeat" items="{{_events}}">
-        <argon-doc-property descriptor="{{item}}"></argon-doc-property>
+        <iron-doc-property descriptor="{{item}}"></iron-doc-property>
       </template>
     </section>
 
@@ -90,7 +90,7 @@ property.
 
   Polymer({
 
-    is: 'argon-doc-viewer',
+    is: 'iron-doc-viewer',
 
     properties: {
 
@@ -141,7 +141,7 @@ property.
             'and JSON descriptor:', this._jsonDescriptor,
             'Please provide only one');
         throw new Error(
-            '<argon-doc-viewer> accepts either a bound or JSON descriptor; not both');
+            '<iron-doc-viewer> accepts either a bound or JSON descriptor; not both');
       }
 
       if (jsonDescriptor) {
@@ -193,7 +193,7 @@ property.
       this._collapseToggleLabel = this._collapsed ? 'expand' : 'collapse';
 
       // Bound values aren't exposed to dom-repeat's scope.
-      var properties = this.querySelectorAll('argon-doc-property');
+      var properties = this.querySelectorAll('iron-doc-property');
       for (var i = 0, property; property = properties[i]; i++) {
         property.collapsed = this._collapsed;
       }
