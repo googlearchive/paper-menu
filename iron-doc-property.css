@@ -117,6 +117,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   display: block;
 }
 
+#desc::shadow #content > :first-child {
+  margin-top: 0;
+}
+
 #desc::shadow #content > :last-child {
   margin-bottom: 0;
 }

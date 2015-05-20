@@ -21,48 +21,48 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <link rel="import" href="../../polymer/polymer.html">
     <link rel="import" href="../../test-fixture/test-fixture.html">
 
-    <link rel="import" href="../iron-doc-element.html">
+    <link rel="import" href="../iron-doc-viewer.html">
   </head>
   <body>
 
-    <iron-doc-element>
+    <iron-doc-viewer>
       {
         "is": "awesome-sauce",
         "properties": [
           {"name": "isAwesome", "type": "boolean", "desc": "Is it awesome?"}
         ]
       }
-    </iron-doc-element>
+    </iron-doc-viewer>
 
     <test-fixture id="bound">
       <template is="dom-template">
-        <iron-doc-element descriptor="{{descriptor}}" bound></iron-doc-element>
+        <iron-doc-viewer descriptor="{{descriptor}}" bound></iron-doc-viewer>
       </template>
     </test-fixture>
 
     <test-fixture id="json">
       <template is="dom-template">
-        <iron-doc-element json>
+        <iron-doc-viewer json>
           {
             "is": "awesome-sauce",
             "properties": [
               {"name": "isAwesome", "type": "boolean", "desc": "Is it awesome?"}
             ]
           }
-        </iron-doc-element>
+        </iron-doc-viewer>
       </template>
     </test-fixture>
 
     <test-fixture id="json-and-bound">
       <template is="dom-template">
-        <iron-doc-element descriptor="{{descriptor}}" jsonbound>
+        <iron-doc-viewer descriptor="{{descriptor}}" jsonbound>
           {
             "is": "awesome-sauce",
             "properties": [
               {"name": "isAwesome", "type": "boolean", "desc": "Is it awesome?"}
             ]
           }
-        </iron-doc-element>
+        </iron-doc-viewer>
       </template>
     </test-fixture>
 
@@ -75,7 +75,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         ]
       };
 
-      describe('<iron-doc-element>', function() {
+      describe('<iron-doc-viewer>', function() {
 
         var page;
         afterEach(function() {
