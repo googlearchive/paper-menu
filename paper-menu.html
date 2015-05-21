@@ -34,27 +34,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       color: var(--paper-menu-disabled-color, --disabled-text-color);
     }
 
-    :host > ::content > .iron-selected {
+    :host > ::content > *:focus {
       position: relative;
+      outline: 0;
     }
 
-    :host > ::content > .iron-selected::after {
+    :host > ::content > *:focus:after {
       @apply(--layout-fit);
-
       background: currentColor;
       /* FIXME move to paper-styles for next widget */
       opacity: 0.12;
       content: '';
 
-      @apply(--paper-menu-selected-item);
+      @apply(--paper-menu-focused-item);
     }
 
-    :host > ::content > .iron-selected[colored]::after {
+    :host > ::content > *[colored]:focus:after {
       opacity: 0.26;
 
-      @apply(--paper-menu-colored-selected-item);
+      @apply(--paper-menu-colored-focused-item);
     }
 
+    :host > ::content > .iron-selected {
+      font-weight: bold;
+
+      @apply(--paper-menu-selected-item);
+    }
   </style>
 
   <template>
