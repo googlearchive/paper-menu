@@ -27,7 +27,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       background: var(--paper-menu-background-color, --primary-background-color);
       color: var(--paper-menu-color, --primary-text-color);
 
-      mixin(--paper-menu);
+      @apply(--paper-menu);
     }
 
     :host > ::content > [disabled] {
@@ -46,13 +46,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       opacity: 0.12;
       content: '';
 
-      mixin(--paper-menu-selected-item);
+      @apply(--paper-menu-selected-item);
     }
 
     :host > ::content > .iron-selected[colored]::after {
       opacity: 0.26;
 
-      mixin(--paper-menu-colored-selected-item);
+      @apply(--paper-menu-colored-selected-item);
     }
 
   </style>
