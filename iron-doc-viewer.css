@@ -55,7 +55,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   border: solid #e5e5e5;
   border-width: 1px 0;
   overflow-x: auto;
-  padding: 12px 18px;
+  padding: 12px 24px;
+  font-size: 15px;
 }
 
 #summary marked-element::shadow #content code {
@@ -63,11 +64,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 }
 
 #summary marked-element::shadow #content p {
-  padding: 0 18px;
+  padding: 0 24px;
 }
 
 #summary marked-element::shadow #content a {
-  color: black;
+  color: var(--paper-blue-500);
+  font-weight: 500;
+  text-decoration: none;
 }
 
 #summary marked-element::shadow #content h1,
