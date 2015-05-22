@@ -68,7 +68,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 }
 
 #summary marked-element::shadow #content a {
-  color: var(--paper-blue-500);
+  color: var(--paper-indigo-a200);
   font-weight: 500;
   text-decoration: none;
 }
