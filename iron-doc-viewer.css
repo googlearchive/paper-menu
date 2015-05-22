@@ -16,7 +16,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 }
 
 :host > header {
-  @apply(--paper-font-display1);
+  @apply(--paper-font-headline);
   margin-bottom: 18px;
 }
 
@@ -38,6 +38,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   cursor: pointer;
   display: block;
   padding: 4px 16px;
+  color: var(--paper-grey-800);
 }
 #api #togglePrivate {
   opacity: 0.5;
@@ -50,7 +51,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 }
 
 #summary marked-element::shadow #content pre {
-  background-color: #fafafa;
+  background-color: var(--paper-grey-50);
   border: solid #ebebeb;
   border-width: 1px 0;
   overflow-x: auto;
@@ -80,15 +81,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 /* Property Sections */
 
 .card {
-  @apply(--shadow-elevation-2dp);
   background: white;
   margin-bottom: 20px;
+  border: 1px solid #e5e5e5;
+  border-radius: 2px;
 }
 
 .card > header {
-  @apply(--paper-font-title);
-  padding: 18px 16px;
+  padding: 14px 24px;
   border-bottom: 1px solid #ebebeb;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 400;
 }
 
 iron-doc-property {

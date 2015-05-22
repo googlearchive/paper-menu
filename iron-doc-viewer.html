@@ -57,7 +57,6 @@ property.
     <nav id="api">
       <header>API Reference</header>
       <a id="togglePrivate" on-tap="_togglePrivate">{{_privateToggleLabel}}</a>
-      <a id="toggleCollapsed" on-tap="_toggleCollapsed">{{_collapseToggleLabel}}</a>
     </nav>
 
     <section id="properties" class="card" hidden$="{{_noneToShow(_showPrivate,_properties)}}">
@@ -108,16 +107,6 @@ property.
         observer: '_descriptorChanged',
       },
 
-      /** Whether properties should be expanded or collapsed. */
-      _collapsed: {
-        type:     Boolean,
-        value:    false,
-        observer: '_collapsedChanged',
-      },
-
-      /** The label to show for the collapse/expand button. */
-      _collapseToggleLabel: String,
-
       /** Whether private properties should be hidden or shown. */
       _showPrivate: {
         type:     Boolean,
@@ -125,7 +114,7 @@ property.
         observer: '_showPrivateChanged',
       },
 
-      /** The label to show for the collapse/expand button. */
+      /** The label to show for the Private API toggle. */
       _privateToggleLabel: String,
 
     },
