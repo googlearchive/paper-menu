@@ -52,7 +52,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 #summary marked-element::shadow #content pre {
   background-color: var(--paper-grey-50);
-  border: solid #ebebeb;
+  border: solid #e5e5e5;
   border-width: 1px 0;
   overflow-x: auto;
   padding: 12px 18px;
@@ -83,20 +83,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 .card {
   background: white;
   margin-bottom: 20px;
-  border: 1px solid #e5e5e5;
   border-radius: 2px;
+  @apply(--shadow-elevation-2dp);
 }
 
 .card > header {
   padding: 14px 24px;
-  border-bottom: 1px solid #ebebeb;
+  border-bottom: 1px solid #e5e5e5;
   font-size: 20px;
   line-height: 28px;
   font-weight: 400;
 }
 
 iron-doc-property {
-  border-bottom: 1px solid #ebebeb;
+  border-bottom: 1px solid #e5e5e5;
 }
 iron-doc-property:last-of-type {
   border-bottom-width: 0;
