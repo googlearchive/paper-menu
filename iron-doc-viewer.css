@@ -10,9 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 :host {
   @apply(--paper-font-body1);
   display: block;
-  box-sizing: border-box;
   color: #212121;
-  max-width: 48em;
 }
 
 :host > header {
