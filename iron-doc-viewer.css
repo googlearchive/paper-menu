@@ -57,6 +57,33 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   font-size: 15px;
 }
 
+#summary marked-element::shadow #content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  border-top: 1px solid #e5e5e5;
+}
+
+#summary marked-element::shadow #content tr {
+  border-bottom: 1px solid #e5e5e5;
+  padding: 0 18px;
+}
+
+#summary marked-element::shadow #content td,
+#summary marked-element::shadow #content th {
+  padding: 6px 12px;
+}
+
+#summary marked-element::shadow #content td:first-child,
+#summary marked-element::shadow #content th:first-child {
+  padding-left: 24px;
+}
+
+#summary marked-element::shadow #content td:last-child,
+#summary marked-element::shadow #content th:last-child {
+  padding-right: 24px;
+}
+
 #summary marked-element::shadow #content code {
   @apply(--paper-font-code1);
 }
