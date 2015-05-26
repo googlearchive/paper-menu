@@ -177,6 +177,8 @@ property.
     _descriptorChanged: function() {
       if (!this.descriptor) return;
 
+      this.scrollTop = 0;
+
       // Split the documented properties between functions and other types.
       var properties = [];
       var methods    = [];
