@@ -143,3 +143,12 @@ iron-doc-property[private] {
 iron-doc-property[configuration] {
   display: none !important; /* Never. */
 }
+
+#behaviors > p {
+  border-bottom: 1px solid #e5e5e5;
+  box-sizing: border-box;
+  display: block;
+  padding: 16px 24px;
+  cursor: pointer;
+}
+

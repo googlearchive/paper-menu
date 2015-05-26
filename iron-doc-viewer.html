@@ -80,6 +80,13 @@ property.
       </template>
     </section>
 
+    <section id="behaviors" class="card" hidden$="{{_noneToShow(_showPrivate,_behaviors}}}">
+      <header>Behaviors</header>
+      <template is="dom-repeat" items="{{_behaviors}}">
+        <p on-click="_broadcastBehavior">{{item}}</p>
+      </template>
+    </section>
+
   </template>
 
 </dom-module>
@@ -117,6 +124,12 @@ property.
       /** The label to show for the Private API toggle. */
       _privateToggleLabel: String,
 
+      /**
+       * Broadcast when another component is clicked on
+       * @param {String} detail name of the component
+       * iron-doc-viewer container should load component if possible
+       * @event iron-doc-viewer-component-selected
+       */
     },
 
     ready: function() {
@@ -174,6 +187,7 @@ property.
       this._properties = properties;
       this._methods    = methods;
       this._events     = this.descriptor.events || [];
+      this._behaviors  = this.descriptor.behaviors || [];
 
       this.toggleAttribute('abstract', this.descriptor.abstract);
     },
@@ -206,6 +220,9 @@ property.
         if (showPrivate || !items[i].private) return false;
       }
       return true;
+    },
+    _broadcastBehavior: function(ev) {
+      this.fire('iron-doc-viewer-component-selected', ev.srcElement._templateInstance.item);
     }
   });
 
