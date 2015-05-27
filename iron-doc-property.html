@@ -33,7 +33,7 @@ Give it a hydrolysis `PropertyDescriptor` (via `descriptor`), and watch it go!
           <template is="dom-if" if="{{descriptor.readOnly}}"><span>&nbsp;readOnly</span></template>
           <template is="dom-if" if="{{descriptor.notify}}"><span>&nbsp;notify</span></template>
         </div>
-        <ol id="params" hidden$="{{_computeHideParams(descriptor)}}">
+        <ol id="params" hidden$="{{_computeHideParams(descriptor,return)}}">
           <template is="dom-repeat" items="{{descriptor.params}}">
             <li hidden$="{{!item.type}}">
               <span class="name">{{item.name}}</span>
@@ -167,11 +167,14 @@ Give it a hydrolysis `PropertyDescriptor` (via `descriptor`), and watch it go!
       }.bind(this));
     },
 
+    // hidden if no type and no defaults
     _computeHideMeta: function(descriptor) {
       return descriptor.type === undefined &&  descriptor.default === undefined;
     },
-    _computeHideParams: function(descriptor) {
-      return !descriptor.params || descriptor.params.length === 0;
+
+    // hidden if no params, and no return value
+    _computeHideParams: function(descriptor,ret) {
+      return (!descriptor.params || descriptor.params.length === 0) && !ret;
     }
 
   });

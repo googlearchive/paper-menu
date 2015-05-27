@@ -10,13 +10,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 :host {
   @apply(--paper-font-body1);
   display: block;
-  box-sizing: border-box;
   color: #212121;
-  max-width: 48em;
 }
 
 :host > header {
-  @apply(--paper-font-display1);
+  @apply(--paper-font-headline);
   margin-bottom: 18px;
 }
 
@@ -38,6 +36,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   cursor: pointer;
   display: block;
   padding: 4px 16px;
+  color: var(--paper-grey-800);
 }
 #api #togglePrivate {
   opacity: 0.5;
@@ -50,11 +49,39 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 }
 
 #summary marked-element::shadow #content pre {
-  background-color: #fafafa;
-  border: solid #ebebeb;
+  background-color: var(--paper-grey-50);
+  border: solid #e5e5e5;
   border-width: 1px 0;
   overflow-x: auto;
-  padding: 12px 18px;
+  padding: 12px 24px;
+  font-size: 15px;
+}
+
+#summary marked-element::shadow #content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  border-top: 1px solid #e5e5e5;
+}
+
+#summary marked-element::shadow #content tr {
+  border-bottom: 1px solid #e5e5e5;
+  padding: 0 18px;
+}
+
+#summary marked-element::shadow #content td,
+#summary marked-element::shadow #content th {
+  padding: 6px 12px;
+}
+
+#summary marked-element::shadow #content td:first-child,
+#summary marked-element::shadow #content th:first-child {
+  padding-left: 24px;
+}
+
+#summary marked-element::shadow #content td:last-child,
+#summary marked-element::shadow #content th:last-child {
+  padding-right: 24px;
 }
 
 #summary marked-element::shadow #content code {
@@ -62,11 +89,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 }
 
 #summary marked-element::shadow #content p {
-  padding: 0 18px;
+  padding: 0 24px;
 }
 
 #summary marked-element::shadow #content a {
-  color: black;
+  color: var(--paper-indigo-a200);
+  font-weight: 500;
+  text-decoration: none;
 }
 
 #summary marked-element::shadow #content h1,
@@ -80,19 +109,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 /* Property Sections */
 
 .card {
-  @apply(--shadow-elevation-2dp);
   background: white;
   margin-bottom: 20px;
+  border-radius: 2px;
+  @apply(--shadow-elevation-2dp);
 }
 
 .card > header {
-  @apply(--paper-font-title);
-  padding: 18px 16px;
-  border-bottom: 1px solid #ebebeb;
+  padding: 14px 24px;
+  border-bottom: 1px solid #e5e5e5;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 400;
 }
 
 iron-doc-property {
-  border-bottom: 1px solid #ebebeb;
+  border-bottom: 1px solid #e5e5e5;
 }
 iron-doc-property:last-of-type {
   border-bottom-width: 0;
@@ -111,3 +143,12 @@ iron-doc-property[private] {
 iron-doc-property[configuration] {
   display: none !important; /* Never. */
 }
+
+#behaviors > p {
+  border-bottom: 1px solid #e5e5e5;
+  box-sizing: border-box;
+  display: block;
+  padding: 16px 24px;
+  cursor: pointer;
+}
+
