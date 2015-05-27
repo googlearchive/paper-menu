@@ -167,9 +167,12 @@ Give it a hydrolysis `PropertyDescriptor` (via `descriptor`), and watch it go!
       }.bind(this));
     },
 
+    // hidden if no type and no defaults
     _computeHideMeta: function(descriptor) {
       return descriptor.type === undefined &&  descriptor.default === undefined;
     },
+
+    // hidden if no params, and no return value
     _computeHideParams: function(descriptor,ret) {
       return (!descriptor.params || descriptor.params.length === 0) && !ret;
     }
