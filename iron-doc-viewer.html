@@ -80,7 +80,7 @@ property.
       </template>
     </section>
 
-    <section id="behaviors" class="card" hidden$="{{_noneToShow(_showPrivate,_behaviors}}}">
+    <section id="behaviors" class="card" hidden$="{{_hideBehaviors(_behaviors)}}">
       <header>Behaviors</header>
       <template is="dom-repeat" items="{{_behaviors}}">
         <p on-click="_broadcastBehavior">{{item}}</p>
@@ -177,8 +177,6 @@ property.
     _descriptorChanged: function() {
       if (!this.descriptor) return;
 
-      this.scrollTop = 0;
-
       // Split the documented properties between functions and other types.
       var properties = [];
       var methods    = [];
@@ -223,6 +221,11 @@ property.
       }
       return true;
     },
+
+    _hideBehaviors: function(behaviors) {
+      return behaviors === null || behaviors.length === 0;
+    },
+
     _broadcastBehavior: function(ev) {
       this.fire('iron-doc-viewer-component-selected', ev.srcElement._templateInstance.item);
     }
