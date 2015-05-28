@@ -1,6 +1,6 @@
 {
   "name": "iron-doc-viewer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "authors": [
     "The Polymer Authors"
   ],
@@ -22,7 +22,7 @@
     "marked-element": "PolymerElements/marked-element#^1.0.0",
     "paper-styles": "PolymerElements/paper-styles#^1.0.0",
     "polymer": "Polymer/polymer#^1.0.0",
-    "prism-element": "PolymerElements/prism-element#^1.0.0"
+    "prism-element": "PolymerElements/prism-element#^1.0.1"
   },
   "devDependencies": {
     "test-fixture": "PolymerElements/test-fixture#^1.0.0",
