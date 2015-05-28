@@ -14,7 +14,7 @@
     "type": "git",
     "url": "git://github.com/PolymerElements/paper-menu"
   },
-  "license": "MIT",
+  "license": "http://polymer.github.io/LICENSE.txt",
   "homepage": "https://github.com/PolymerElements/paper-menu",
   "ignore": [],
   "dependencies": {
