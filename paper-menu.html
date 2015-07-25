@@ -46,6 +46,7 @@ Custom property | Description | Default
 `--paper-menu-color`               | Menu foreground color                                            | `--primary-text-color`
 `--paper-menu-disabled-color`     | Foreground color for a disabled item                             | `--disabled-text-color`
 `--paper-menu`                    | Mixin applied to the menu                                        | `{}`
+`--paper-menu-item`               | Mixin applied to the a, div tags                                 | `{}`
 `--paper-menu-selected-item`      | Mixin applied to the selected item                               | `{}`
 `--paper-menu-focused-item`       | Mixin applied to the focused item                                | `{}`
 `--paper-menu-focused-item-after` | Mixin applied to the ::after pseudo-element for the focused item | `{}`
@@ -75,6 +76,11 @@ of a menu item will also focus it.
       color: var(--paper-menu-color, --primary-text-color);
 
       @apply(--paper-menu);
+    }
+    
+    /* */
+    .content > ::content > a, .content > ::content > div, .content > ::content > li{
+        @apply(--paper-menu-item)
     }
 
     /* need a wrapper element to make this higher specificity than the :host rule in paper-item */
