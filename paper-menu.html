@@ -85,22 +85,21 @@ of a menu item will also focus it.
 
   </template>
 
+  <script>
+
+  (function() {
+
+    Polymer({
+
+      is: 'paper-menu',
+
+      behaviors: [
+        Polymer.IronMenuBehavior
+      ]
+
+    });
+
+  })();
+
+  </script>
 </dom-module>
-
-<script>
-
-(function() {
-
-  Polymer({
-
-    is: 'paper-menu',
-
-    behaviors: [
-      Polymer.IronMenuBehavior
-    ]
-
-  });
-
-})();
-
-</script>
