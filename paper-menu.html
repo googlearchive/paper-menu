@@ -66,18 +66,18 @@ of a menu item will also focus it.
 <dom-module id="paper-menu">
   <link rel="import" type="css" href="paper-menu-shared.css">
 
-  <style>
-    :host {
-      display: block;
-      padding: 8px 0;
-
-      background: var(--paper-menu-background-color, --primary-background-color);
-      color: var(--paper-menu-color, --primary-text-color);
-
-      @apply(--paper-menu);
-    }
-  </style>
   <template>
+    <style>
+      :host {
+        display: block;
+        padding: 8px 0;
+
+        background: var(--paper-menu-background-color, --primary-background-color);
+        color: var(--paper-menu-color, --primary-text-color);
+
+        @apply(--paper-menu);
+      }
+    </style>
 
     <div class="selectable-content">
       <content></content>
@@ -85,22 +85,21 @@ of a menu item will also focus it.
 
   </template>
 
+  <script>
+
+  (function() {
+
+    Polymer({
+
+      is: 'paper-menu',
+
+      behaviors: [
+        Polymer.IronMenuBehavior
+      ]
+
+    });
+
+  })();
+
+  </script>
 </dom-module>
-
-<script>
-
-(function() {
-
-  Polymer({
-
-    is: 'paper-menu',
-
-    behaviors: [
-      Polymer.IronMenuBehavior
-    ]
-
-  });
-
-})();
-
-</script>
