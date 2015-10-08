@@ -30,7 +30,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <test-fixture id="basic">
       <template>
-        <paper-menu>
+        <paper-menu selected="0">
           <div>item 1</div>
           <div>item 2</div>
           <div>item 3</div>
@@ -47,16 +47,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           menu = fixture('basic');
         });
 
-        test('selected item is styled', function() {
-
-          var boldDiv = document.createElement('div');
-          boldDiv.style.fontWeight = 'bold';
-          document.body.appendChild(boldDiv);
-
-          menu.selected = 1;
-
-          assert.equal(getComputedStyle(menu.selectedItem).fontWeight, 
-              getComputedStyle(boldDiv).fontWeight, 'selected item is bold');
+        test('selected item has an appropriate className', function() {
+          assert(menu.selectedItem.classList.contains('iron-selected'));
         });
 
       });
