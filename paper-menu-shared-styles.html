@@ -41,6 +41,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       .selectable-content > ::content > *[colored]:focus:after {
         opacity: 0.26;
       }
+
+      .selectable-content > ::content > * > div,
+      .selectable-content > ::content > * > span {
+        pointer-events: none;
+      }
     </style>
   </template>
 </dom-module>
