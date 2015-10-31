@@ -2,7 +2,7 @@
 <!---
 
 This README is automatically generated from the comments in these files:
-paper-menu-button.html  paper-menu-button-animations.html  paper-menu.html  paper-submenu.html
+paper-menu.html  paper-submenu.html
 
 Edit those files, and our readme bot will duplicate them over here!
 Edit this file, and the bot will squash your changes :)
@@ -64,56 +64,6 @@ down arrow keys, esc to exit the menu, and enter to activate a menu item. Typing
 of a menu item will also focus it.
 
 
-
-##&lt;paper-menu-button&gt;
-
-
-Material design: [Dropdown buttons](https://www.google.com/design/spec/components/buttons.html#buttons-dropdown-buttons)
-
-`paper-menu-button` allows one to compose a designated "trigger" element with
-another element that represents "content", to create a dropdown menu that
-displays the "content" when the "trigger" is clicked.
-
-The child element with the class `dropdown-trigger` will be used as the
-"trigger" element. The child element with the class `dropdown-content` will be
-used as the "content" element.
-
-The `paper-menu-button` is sensitive to its content's `iron-select` events. If
-the "content" element triggers an `iron-select` event, the `paper-menu-button`
-will close automatically.
-
-Example:
-
-    <paper-menu-button>
-      <paper-icon-button icon="menu" class="dropdown-trigger"></paper-icon-button>
-      <paper-menu class="dropdown-content">
-        <paper-item>Share</paper-item>
-        <paper-item>Settings</paper-item>
-        <paper-item>Help</paper-item>
-      </paper-menu>
-    </paper-menu-button>
-
-### Styling
-
-The following custom properties and mixins are also available for styling:
-
-Custom property | Description | Default
-----------------|-------------|----------
-`--paper-menu-button-dropdown-background` | Background color of the paper-menu-button dropdown | `#fff`
-`--paper-menu-button` | Mixin applied to the paper-menu-button | `{}`
-`--paper-menu-button-disabled` | Mixin applied to the paper-menu-button when disabled | `{}`
-`--paper-menu-button-dropdown` | Mixin applied to the paper-menu-button dropdown | `{}`
-
-
-
-
-<!-- No docs for <paper-menu-grow-height-animation> found. -->
-
-<!-- No docs for <paper-menu-grow-width-animation> found. -->
-
-<!-- No docs for <paper-menu-shrink-height-animation> found. -->
-
-<!-- No docs for <paper-menu-shrink-width-animation> found. -->
 
 ##&lt;paper-submenu&gt;
 
