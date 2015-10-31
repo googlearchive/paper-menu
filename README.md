@@ -9,6 +9,8 @@ Edit this file, and the bot will squash your changes :)
 
 -->
 
+[![Build Status](https://travis-ci.org/PolymerElements/paper-menu.svg?branch=master)](https://travis-ci.org/PolymerElements/paper-menu)
+
 _[Demo and API Docs](https://elements.polymer-project.org/elements/paper-menu)_
 
 
