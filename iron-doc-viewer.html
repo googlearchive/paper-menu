@@ -65,28 +65,28 @@ property.
     </nav>
 
     <section id="properties" class="card" hidden$="{{_noneToShow(_showPrivate,_properties)}}">
-      <header>Properties</header>
+      <header><a href="#properties" class="deeplink">Properties</a></header>
       <template is="dom-repeat" items="{{_properties}}" hidden$="{{!_properties.length}}">
         <iron-doc-property descriptor="{{item}}"></iron-doc-property>
       </template>
     </section>
 
     <section id="methods" class="card"  hidden$="{{_noneToShow(_showPrivate,_methods)}}">
-      <header>Methods</header>
+      <header><a href="#methods" class="deeplink">Methods</a></header>
       <template is="dom-repeat" items="{{_methods}}">
         <iron-doc-property descriptor="{{item}}"></iron-doc-property>
       </template>
     </section>
 
     <section id="events" class="card" hidden$="{{_noneToShow(_showPrivate,_events)}}">
-      <header>Events</header>
+      <header><a href="#events" class="deeplink">Events</a></header>
       <template is="dom-repeat" items="{{_events}}">
         <iron-doc-property descriptor="{{item}}"></iron-doc-property>
       </template>
     </section>
 
     <section id="behaviors" class="card" hidden$="{{_hideBehaviors(_behaviors)}}">
-      <header>Behaviors</header>
+      <header><a href="#behaviors" class="deeplink">Behaviors</a></header>
       <template is="dom-repeat" items="{{_behaviors}}">
         <p on-click="_broadcastBehavior">{{item}}</p>
       </template>

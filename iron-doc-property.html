@@ -23,7 +23,7 @@ Give it a hydrolysis `PropertyDescriptor` (via `descriptor`), and watch it go!
   <template>
     <div id="transitionMask">
       <div id="signature">
-        <span class="name">{{descriptor.name}}</span><span class="params">(<span>{{_paramText}}</span>)</span>
+        <a id="{{descriptor.name}}" href$="#{{descriptor.name}}" class="name deeplink">{{descriptor.name}}</a><span class="params">(<span>{{_paramText}}</span>)</span>
         <span class="return" hidden$="{{!descriptor.return}}">➙ <span class="type">{{descriptor.return.type}}</span></span>
       </div>
       <div id="details">
