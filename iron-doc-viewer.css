@@ -22,6 +22,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   display: none !important;
 }
 
+.deeplink {
+  color: currentcolor;
+  text-decoration: none;
+}
+
+.deeplink:hover {
+  text-decoration: underline;
+}
+
 #api {
   display: flex;
   align-items: center;
