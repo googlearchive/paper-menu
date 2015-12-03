@@ -149,7 +149,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           var item1 = sub1.querySelector('.menu-content').querySelector('paper-item');
 
           MockInteractions.tap(trigger1);
-          assert.equal(getComputedStyle(item1).fontWeight, getComputedStyle(normalDiv).fontWeight);
+          assert.equal(getComputedStyle(item1).fontWeight, getComputedStyle(boldDiv).fontWeight);
           MockInteractions.tap(item1);
 
           assert.equal(getComputedStyle(item1).fontWeight, getComputedStyle(boldDiv).fontWeight);
@@ -186,6 +186,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           assert.equal(getComputedStyle(trigger1).fontWeight, getComputedStyle(normalDiv).fontWeight);
           assert.equal(getComputedStyle(trigger2).fontWeight, getComputedStyle(boldDiv).fontWeight);
           assert.equal(getComputedStyle(trigger3).fontWeight, getComputedStyle(normalDiv).fontWeight);
+        });
+
+        test('focus a submenu should redirect focus to the trigger', function(done) {
+          MockInteractions.focus(sub1);
+          flush(function() {
+            assert.equal(sub1.shadowRoot ? sub1.shadowRoot.activeElement :
+                document.activeElement, sub1.__trigger);
+            done();
+          });
         });
       });
 
