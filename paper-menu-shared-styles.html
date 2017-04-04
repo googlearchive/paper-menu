@@ -8,10 +8,6 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 
-<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
-<link rel="import" href="../paper-styles/color.html">
-<link rel="import" href="../paper-styles/default-theme.html">
-
 <dom-module id="paper-menu-shared-styles">
   <template>
     <style>
@@ -22,18 +18,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         @apply(--paper-menu-selected-item);
       }
 
-      .selectable-content > ::content > [disabled] {
+      .selectable-content > ::slotted(*) > [disabled] {
         color: var(--paper-menu-disabled-color, --disabled-text-color);
       }
 
-      .selectable-content > ::content > *:focus {
+      .selectable-content > ::slotted(*) > *:focus {
         position: relative;
         outline: 0;
 
         @apply(--paper-menu-focused-item);
       }
 
-      .selectable-content > ::content > *:focus:after {
+      .selectable-content > ::slotted(*) > *:focus:after {
         @apply(--layout-fit);
         background: currentColor;
         opacity: var(--dark-divider-opacity);
@@ -43,7 +39,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         @apply(--paper-menu-focused-item-after);
       }
 
-      .selectable-content > ::content > *[colored]:focus:after {
+      .selectable-content > ::slotted(*) > *[colored]:focus:after {
         opacity: 0.26;
       }
     </style>
