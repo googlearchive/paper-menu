@@ -81,23 +81,23 @@ consists of a trigger that expands or collapses another `<paper-menu>`:
 ```html
 <paper-menu>
   <paper-submenu>
-    <paper-item class="menu-trigger">Topics</paper-item>
-    <paper-menu class="menu-content">
+    <paper-item class="menu-trigger" slot="menu-trigger">Topics</paper-item>
+    <paper-menu class="menu-content" slot="menu-content">
       <paper-item>Topic 1</paper-item>
       <paper-item>Topic 2</paper-item>
       <paper-item>Topic 3</paper-item>
     </paper-menu>
   </paper-submenu>
   <paper-submenu>
-    <paper-item class="menu-trigger">Faves</paper-item>
-    <paper-menu class="menu-content">
+    <paper-item class="menu-trigger" slot="menu-trigger">Faves</paper-item>
+    <paper-menu class="menu-content" slot="menu-content">
       <paper-item>Fave 1</paper-item>
       <paper-item>Fave 2</paper-item>
     </paper-menu>
   </paper-submenu>
   <paper-submenu disabled>
-    <paper-item class="menu-trigger">Unavailable</paper-item>
-    <paper-menu class="menu-content">
+    <paper-item class="menu-trigger" slot="menu-trigger">Unavailable</paper-item>
+    <paper-menu class="menu-content" slot="menu-content">
       <paper-item>Disabled 1</paper-item>
       <paper-item>Disabled 2</paper-item>
     </paper-menu>

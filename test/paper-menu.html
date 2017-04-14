@@ -20,7 +20,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
 
     <script src="../../web-component-tester/browser.js"></script>
+    <script src="../../iron-test-helpers/mock-interactions.js"></script>
+
+    <link rel="import" href="../../paper-styles/color.html">
+    <link rel="import" href="../../paper-styles/typography.html">
+    <link rel="import" href="../../paper-item/paper-item.html">
     <link rel="import" href="../paper-menu.html">
+
 
   </head>
   <body>
@@ -36,6 +42,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </test-fixture>
 
     <script>
+      function waitForIronItemsChanged(selector, callback) {
+        selector.addEventListener('iron-items-changed', function onIronItemsChanged() {
+          selector.removeEventListener('iron-items-changed', onIronItemsChanged);
+          callback();
+        })
+      }
 
       suite('<paper-menu>', function() {
         var menu;
@@ -44,18 +56,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           menu = fixture('basic');
         });
 
-        test('selected item is styled', function() {
+        test('selected item is styled', function(done) {
 
           var boldDiv = document.createElement('div');
           boldDiv.style.fontWeight = 'bold';
           document.body.appendChild(boldDiv);
-
           menu.selected = 1;
+          MockInteractions.focus(menu);
 
-          assert.equal(getComputedStyle(menu.selectedItem).fontWeight,
+          waitForIronItemsChanged(menu, function(){
+            Polymer.Base.async(function(){
+              var ownerRoot = Polymer.dom(menu.selectedItem).getOwnerRoot() || document;
+              var selectedItem = Polymer.dom(ownerRoot).selectedItem;
+              assert.equal(getComputedStyle(menu.selectedItem).fontWeight,
               getComputedStyle(boldDiv).fontWeight, 'selected item is bold');
-        });
+              done();
+            });
 
+          });
+        });
       });
 
     </script>
