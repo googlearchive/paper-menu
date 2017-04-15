@@ -195,7 +195,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               // Let trigger 2 open
               Polymer.Base.async(function(){
                 assert.equal(trigger1.getComputedStyleValue('font-weight'), getComputedStyle(normalDiv).fontWeight);
-                assert.equal(item1.getComputedStyleValue('font-weight'), getComputedStyle(normalDiv).fontWeight);
+                Polymer.Base.async(function(){
+                  assert.equal(item1.getComputedStyleValue('font-weight'), getComputedStyle(normalDiv).fontWeight);
+                });
                 // Now that it is open we don't need to wait, we can test immediately
                 MockInteractions.tap(item2);
                 assert.equal(trigger2.getComputedStyleValue('font-weight'), getComputedStyle(boldDiv).fontWeight);
@@ -208,10 +210,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         test('focus a submenu should redirect focus to the trigger', function(done) {
           MockInteractions.focus(sub1);
-          Polymer.flush()
           waitForIronItemsChanged(menu, function(){
-            expect(trigger1.hasAttribute('focused')).to.be.eql(true);
-            done();
+            Polymer.Base.async(function(){
+                Polymer.Base.async(function(){
+                expect(trigger1.hasAttribute('focused')).to.be.eql(true);
+                done();
+                });
+            });
           });
         });
       });

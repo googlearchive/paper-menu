@@ -1,9 +1,11 @@
 language: node_js
 sudo: required
 before_script:
-  - npm install -g bower polylint web-component-tester
-  - bower install
-  - polylint
+  - npm install -g bower polymer-cli@next
+  - polymer install --variants
+  - sudo mv /usr/bin/google-chrome /usr/bin/google-chrome-old
+  - sudo mv /usr/bin/google-chrome-beta /usr/bin/google-chrome
+
 env:
   global:
     - secure: >-
@@ -17,8 +19,8 @@ addons:
     sources:
       - google-chrome
     packages:
-      - google-chrome-stable
+      - google-chrome-beta
 script:
-  - xvfb-run wct
-  - 'if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then wct -s ''default''; fi'
+  - xvfb-run polymer test
+  - 'if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then polymer test -s ''default''; fi'
 dist: trusty
