@@ -17,7 +17,7 @@ thing! https://github.com/PolymerLabs/tedium/issues
 _[Demo and API docs](https://elements.polymer-project.org/elements/paper-menu)_
 
 
-##&lt;paper-menu&gt;
+## &lt;paper-menu&gt;
 
 Material design: [Menus](https://www.google.com/design/spec/components/menus.html)
 
