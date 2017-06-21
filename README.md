@@ -67,6 +67,7 @@ The following custom properties and mixins are available for styling:
 | `--paper-menu` | Mixin applied to the menu | `{}` |
 | `--paper-menu-selected-item` | Mixin applied to the selected item | `{}` |
 | `--paper-menu-focused-item` | Mixin applied to the focused item | `{}` |
+| `--paper-menu-focused-item-before` | Mixin applied to the ::before pseudo-element for the focused item | `{}` |
 | `--paper-menu-focused-item-after` | Mixin applied to the ::after pseudo-element for the focused item | `{}` |
 
 ### Accessibility

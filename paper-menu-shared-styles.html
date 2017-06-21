@@ -32,6 +32,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         @apply(--paper-menu-focused-item);
       }
+      
+      .selectable-content > ::content > *:focus:before {
+        @apply(--layout-fit);
+        background: currentColor;
+        opacity: var(--dark-divider-opacity);
+        content: '';
+        pointer-events: none;
+
+        @apply(--paper-menu-focused-item-before);
+      }
 
       .selectable-content > ::content > *:focus:after {
         @apply(--layout-fit);
