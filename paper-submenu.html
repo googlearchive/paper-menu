@@ -74,6 +74,18 @@ item has bolded text. Please see the `<paper-menu>` docs for which attributes
       is: 'paper-submenu',
 
       properties: {
+      
+      /**
+       * Set notToggleOnTap to true to avoid show sub-element on tap.
+       *
+       * @attribute notToggleOnTap
+       */
+      notToggleOnTap: {
+      
+            type : Boolean,
+            value : false
+      },
+      
         /**
          * Fired when the submenu is opened.
          *
@@ -158,7 +170,7 @@ item has bolded text. Please see the `<paper-menu>` docs for which attributes
        * A handler that is called when the trigger is tapped.
        */
       _onTap: function(e) {
-        if (!this.disabled) {
+        if (!this.disabled && !this.notToggleOnTap) {
           this.toggle();
         }
       },
